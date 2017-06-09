@@ -43,5 +43,6 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.spoofax.meta.core,
  org.metaborg.mbt.core,
  org.metaborg.spt.core,
+ org.metaborg.meta.nabl2.terms,
  org.metaborg.meta.nabl2.java,
  sdf2table
