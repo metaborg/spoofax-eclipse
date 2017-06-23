@@ -18,6 +18,7 @@ import org.eclipse.ui.IEditorInput;
 import org.metaborg.core.MetaborgException;
 import org.metaborg.core.MetaborgRuntimeException;
 import org.metaborg.core.analysis.AnalysisException;
+import org.metaborg.core.analysis.AnalyzeResult;
 import org.metaborg.core.analysis.IAnalysisService;
 import org.metaborg.core.analysis.IAnalyzeResult;
 import org.metaborg.core.analysis.IAnalyzeUnit;
@@ -32,6 +33,7 @@ import org.metaborg.core.messages.MessageFactory;
 import org.metaborg.core.messages.MessageType;
 import org.metaborg.core.outline.IOutline;
 import org.metaborg.core.outline.IOutlineService;
+import org.metaborg.core.processing.analyze.IAnalysisResultRequester;
 import org.metaborg.core.processing.analyze.IAnalysisResultUpdater;
 import org.metaborg.core.processing.parse.IParseResultUpdater;
 import org.metaborg.core.project.IProject;
@@ -76,12 +78,14 @@ public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A exten
     private final IOutlineService<P, A> outlineService;
     private final IParseResultUpdater<P> parseResultProcessor;
     private final IAnalysisResultUpdater<P, A> analysisResultProcessor;
+    private final IAnalysisResultRequester<I, A> analysisResultRequester;
 
     private final IEclipseEditor<F> editor;
     private final IEditorInput input;
     private final @Nullable IResource eclipseResource;
     private final FileObject resource;
     private final String text;
+    private final boolean changed;
     private final boolean instantaneous;
     private final long analysisDelayMs;
     private final boolean analysis;
@@ -94,8 +98,9 @@ public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A exten
         IProjectService projectService, IInputUnitService<I> unitService, ISyntaxService<I, P> syntaxService,
         IAnalysisService<P, A, AU> analyzer, ICategorizerService<P, A, F> categorizer, IStylerService<F> styler,
         IOutlineService<P, A> outlineService, IParseResultUpdater<P> parseResultProcessor,
-        IAnalysisResultUpdater<P, A> analysisResultProcessor, IEclipseEditor<F> editor, IEditorInput input,
-        @Nullable IResource eclipseResource, FileObject resource, String text, boolean instantaneous,
+        IAnalysisResultUpdater<P, A> analysisResultProcessor, IAnalysisResultRequester<I, A> analysisResultRequester,
+        IEclipseEditor<F> editor, IEditorInput input, @Nullable IResource eclipseResource, FileObject resource,
+        String text, boolean changed, boolean instantaneous,
         long analysisDelayMs, boolean analysis) {
         super("Updating Spoofax editor for " + resource.toString());
         setPriority(Job.SHORT);
@@ -112,12 +117,14 @@ public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A exten
         this.outlineService = outlineService;
         this.parseResultProcessor = parseResultProcessor;
         this.analysisResultProcessor = analysisResultProcessor;
+        this.analysisResultRequester = analysisResultRequester;
 
         this.editor = editor;
         this.input = input;
         this.eclipseResource = eclipseResource;
         this.resource = resource;
         this.text = text;
+        this.changed = changed;
         this.instantaneous = instantaneous;
         this.analysisDelayMs = analysisDelayMs;
         this.analysis = analysis;
@@ -274,9 +281,16 @@ public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A exten
         if(spxMonitor.cancelled())
             return StatusUtils.cancel();
         spxMonitor.setDescription("Analyzing");
+        
         final IContext context = contextService.get(resource, project, langImpl);
-        final IAnalyzeResult<A, AU> analysisResult = analyze(parseResult, context, spxMonitor.subProgress(50));
-
+        final IAnalyzeResult<A, AU> analysisResult ;
+        final A result = analysisResultRequester.get(resource);
+        if(changed || result == null) {
+            analysisResult = analyze(parseResult, context, spxMonitor.subProgress(50));
+        } else {
+            analysisResult = new AnalyzeResult<>(result, context);
+        }
+        
         if(spxMonitor.cancelled())
             return StatusUtils.cancel();
         spxMonitor.setDescription("Processing analysis messages");
