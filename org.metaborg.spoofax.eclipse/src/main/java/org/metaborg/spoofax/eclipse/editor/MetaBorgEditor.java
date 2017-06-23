@@ -6,7 +6,6 @@ import java.util.Collection;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -42,6 +41,7 @@ import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.outline.IOutline;
 import org.metaborg.core.outline.IOutlineService;
 import org.metaborg.core.processing.analyze.IAnalysisResultProcessor;
+import org.metaborg.core.processing.analyze.IAnalysisResultRequester;
 import org.metaborg.core.processing.parse.IParseResultProcessor;
 import org.metaborg.core.project.IProjectService;
 import org.metaborg.core.style.ICategorizerService;
@@ -86,6 +86,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
     protected IHoverService<P, A> hoverService;
     protected IParseResultProcessor<I, P> parseResultProcessor;
     protected IAnalysisResultProcessor<I, P, A> analysisResultProcessor;
+    protected IAnalysisResultRequester<I, A> analysisResultRequester;
 
     protected GlobalSchedulingRules globalRules;
     protected SpoofaxPreferences preferences;
@@ -148,7 +149,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         logger.debug("Enabling editor for {}", inputName);
         documentListener = new DocumentListener();
         document.addDocumentListener(documentListener);
-        scheduleJob(true);
+        scheduleJob(true, false);
     }
 
     @Override public void disable() {
@@ -175,7 +176,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
             return;
         }
         logger.debug("Force updating editor for {}", inputName);
-        scheduleJob(true);
+        scheduleJob(true, false);
     }
 
     @Override public void reconfigure() {
@@ -370,7 +371,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         // Create quick outline control.
         this.outlinePopup = new SpoofaxOutlinePopup(getSite().getShell(), this);
 
-        scheduleJob(true);
+        scheduleJob(true, false);
 
         return sourceViewer;
     }
@@ -447,7 +448,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         return true;
     }
 
-    private void scheduleJob(boolean instantaneous) {
+    private void scheduleJob(boolean instantaneous, boolean changed) {
         if(!checkInitialized() || resource == null) {
             return;
         }
@@ -456,16 +457,18 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
 
         // THREADING: invalidate text styling here on the main thread (instead of in the editor update job), to prevent
         // race conditions.
-        presentationMerger.invalidate();
-        parseResultProcessor.invalidate(resource);
-        analysisResultProcessor.invalidate(resource);
+        if(changed) {
+            presentationMerger.invalidate();
+            parseResultProcessor.invalidate(resource);
+            analysisResultProcessor.invalidate(resource);
+        }
 
         final long analysisDelayMs = preferences.delayEditorAnalysis() ? 5000 : 500;
         final boolean analysis = !preferences.disableEditorAnalysis();
         final Job job = new EditorUpdateJob<>(resourceService, languageIdentifier, contextService, projectService,
             unitService, syntaxService, analysisService, categorizerService, stylerService, outlineService,
-            parseResultProcessor, analysisResultProcessor, this, input, eclipseResource, resource, document.get(),
-            instantaneous, analysisDelayMs, analysis);
+            parseResultProcessor, analysisResultProcessor, analysisResultRequester, this, input, eclipseResource, resource, document.get(),
+            changed, instantaneous, analysisDelayMs, analysis);
         final ISchedulingRule rule;
         if(eclipseResource == null) {
             rule = new MultiRule(new ISchedulingRule[] { globalRules.startupReadLock() });
@@ -517,7 +520,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         reconfigure();
 
         cancelJobs(oldInput);
-        scheduleJob(true);
+        scheduleJob(true, true);
     }
 
     private final class DocumentListener implements IDocumentListener {
@@ -526,7 +529,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         }
 
         @Override public void documentChanged(DocumentEvent event) {
-            scheduleJob(false);
+            scheduleJob(false, true);
         }
     }
 
