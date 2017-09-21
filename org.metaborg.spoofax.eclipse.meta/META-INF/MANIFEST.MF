@@ -31,7 +31,8 @@ Require-Bundle: org.eclipse.ui,
  org.metaborg.spt.core,
  org.eclipse.ui.ide,
  org.metaborg.meta.nabl2.java,
- sdf2table
+ sdf2table,
+ sdf2parenthesize
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: metaborg.org
@@ -45,4 +46,5 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.spt.core,
  org.metaborg.meta.nabl2.terms,
  org.metaborg.meta.nabl2.java,
- sdf2table
+ sdf2table,
+ sdf2parenthesize

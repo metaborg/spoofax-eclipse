@@ -46,6 +46,11 @@
     version="2.3.0.qualifier"
     unpack="false"
   />
+  <plugin
+    id="sdf2parenthesize"
+    version="2.3.0.qualifier"
+    unpack="false"
+  />
 
   <!-- Meta languages, unpack plugins for access to jar, ctree, and packed.esv files. -->
   <plugin
