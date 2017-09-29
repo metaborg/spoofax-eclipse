@@ -30,5 +30,6 @@ public class SpoofaxEditor extends
         this.hoverService = spoofax.hoverService;
         this.parseResultProcessor = spoofax.parseResultProcessor;
         this.analysisResultProcessor = spoofax.analysisResultProcessor;
+        this.analysisResultRequester = spoofax.analysisResultRequester;
     }
 }

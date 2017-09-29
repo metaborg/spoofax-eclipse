@@ -52,7 +52,13 @@ public class EclipseProjectService implements IEclipseProjectService {
             return null;
         }
 
-        final IProjectConfig config = configRequest.config();
+        final IProjectConfig config;
+        if(configRequest.config() != null) {
+            config = configRequest.config();
+        } else {
+            logger.debug("Using default configuration for project at {}", location);
+            config = projectConfigService.defaultConfig(location);
+        }
 
         return new EclipseProject(location, config, eclipseProject);
     }
