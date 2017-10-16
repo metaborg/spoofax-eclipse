@@ -176,7 +176,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
             return;
         }
         logger.debug("Force updating editor for {}", inputName);
-        scheduleJob(true, true);
+        scheduleJob(true, false);
     }
 
     @Override public void reconfigure() {
