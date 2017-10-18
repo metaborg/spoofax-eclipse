@@ -21,6 +21,8 @@ import org.metaborg.core.language.LanguageFileSelector;
 import org.metaborg.core.language.ResourceExtensionFacet;
 import org.metaborg.core.language.dialect.IDialectProcessor;
 import org.metaborg.core.processing.LanguageChangeProcessor;
+import org.metaborg.core.processing.analyze.IAnalysisResultProcessor;
+import org.metaborg.core.processing.parse.IParseResultProcessor;
 import org.metaborg.spoofax.eclipse.editor.SpoofaxEditor;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.EditorMappingUtils;
@@ -51,9 +53,10 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
 
     @Inject public EclipseLanguageChangeProcessor(IEclipseResourceService resourceService,
         ILanguageIdentifierService languageIdentifier, IDialectProcessor dialectProcessor,
-        IContextProcessor contextProcessor, org.metaborg.core.editor.IEditorRegistry editorRegistry,
+        IContextProcessor contextProcessor, IParseResultProcessor<?, ?> parseResultProcessor,
+        IAnalysisResultProcessor<?, ?, ?> analysisResultProcessor, org.metaborg.core.editor.IEditorRegistry editorRegistry,
         Set<ILanguageCache> languageCaches) {
-        super(dialectProcessor, contextProcessor, editorRegistry, languageCaches);
+        super(dialectProcessor, contextProcessor, parseResultProcessor, analysisResultProcessor, editorRegistry, languageCaches);
 
         this.resourceService = resourceService;
         this.languageIdentifier = languageIdentifier;
