@@ -105,7 +105,7 @@
   />
   <plugin
     id="meta.flowspec.lang.eclipse"
-    version="2.3.0.qualifier"
+    version="2.4.0.qualifier"
     unpack="true"
   />
   <plugin
