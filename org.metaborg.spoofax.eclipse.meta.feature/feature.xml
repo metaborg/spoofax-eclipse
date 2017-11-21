@@ -161,6 +161,19 @@
     unpack="false"
   />
 
+  <!-- SPG -->
+  <plugin
+    id="org.metaborg.spg.sentence"
+    version="2.4.0.qualifier"
+    unpack="false"
+  />
+
+  <plugin
+    id="org.metaborg.spg.sentence.eclipse"
+    version="2.4.0.qualifier"
+    unpack="false"
+  />
+
   <!-- Other dependencies, unpack some plugins for access to its JAR/native files. -->
   <plugin
     id="org.metaborg.spoofax.eclipse.meta.externaldeps"
