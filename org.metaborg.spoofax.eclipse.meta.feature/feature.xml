@@ -163,13 +163,13 @@
 
   <!-- SPG -->
   <plugin
-    id="org.metaborg.spg.sentence"
+    id="org.metaborg.spg.sentence.sdf"
     version="2.4.0.qualifier"
     unpack="false"
   />
 
   <plugin
-    id="org.metaborg.spg.sentence.eclipse"
+    id="org.metaborg.spg.sentence.sdf.eclipse"
     version="2.4.0.qualifier"
     unpack="false"
   />
