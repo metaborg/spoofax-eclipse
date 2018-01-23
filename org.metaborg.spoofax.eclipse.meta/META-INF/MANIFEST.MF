@@ -35,7 +35,7 @@ Require-Bundle: org.eclipse.ui,
  sdf2parenthesize,
  tableinterfaces,
  characterclasses
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: metaborg.org
 Export-Package: org.metaborg.spoofax.eclipse.meta,
