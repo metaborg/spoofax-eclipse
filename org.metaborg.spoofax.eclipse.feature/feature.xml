@@ -123,6 +123,16 @@
     version="2.5.0.qualifier"
     unpack="false"
   />
+  <plugin
+    id="characterclasses"
+    version="2.5.0.qualifier"
+    unpack="false"
+  />
+  <plugin
+    id="tableinterfaces"
+    version="2.5.0.qualifier"
+    unpack="false"
+  />
 
   <!-- Other dependencies, unpack some plugins for access to its JAR/native files. -->
   <plugin

@@ -32,8 +32,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.metaborg.meta.nabl2.java,
  sdf2table,
- sdf2parenthesize
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+ sdf2parenthesize,
+ tableinterfaces,
+ characterclasses
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: metaborg.org
 Export-Package: org.metaborg.spoofax.eclipse.meta,
@@ -47,4 +49,6 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.meta.nabl2.terms,
  org.metaborg.meta.nabl2.java,
  sdf2table,
- sdf2parenthesize
+ sdf2parenthesize,
+ tableinterfaces,
+ characterclasses
