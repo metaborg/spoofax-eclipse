@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.metaborg</groupId>
     <artifactId>parent</artifactId>
-    <version>2.4.0</version>
+    <version>2.5.0-SNAPSHOT</version>
     <relativePath>../../releng/parent</relativePath>
   </parent>
 
@@ -99,6 +99,10 @@
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+    </dependency>
     <!-- Google Guava -->
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -178,6 +182,7 @@
               logback-core,
               make-permissive,
               rxjava-core,
+              snakeyaml,
               slf4j-api,
               strategoxt-min-jar,
             </Embed-Dependency>
@@ -200,6 +205,7 @@
               org.apache.commons.vfs2.*;provider=metaborg;mandatory:=provider;version=0,
               com.virtlink.commons.configuration2.jackson.*;provider=metaborg;mandatory:=provider;version=0,
               org.slf4j.*;provider=metaborg;mandatory:=provider;version=0,
+              org.yaml.snakeyaml.*;provider=metaborg;mandatory:=provider;version=0,
               org.strategoxt.*,
               rx.*;provider=metaborg;mandatory:=provider;version=0
             </Export-Package>
@@ -216,6 +222,7 @@
               !org.w3c.*,
               !org.xml.*,
               !com.jcraft.jsch.*,
+              !org.springframework.*,
               org.spoofax.*,
               org.metaborg.*,
               org.strategoxt.*,
