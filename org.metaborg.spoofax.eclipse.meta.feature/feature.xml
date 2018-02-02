@@ -114,6 +114,11 @@
     unpack="true"
   />
   <plugin
+    id="org.metaborg.meta.statix.lang.eclipse"
+    version="2.5.0.qualifier"
+    unpack="true"
+  />
+  <plugin
     id="org.metaborg.meta.lang.sdf.eclipse"
     version="2.5.0.qualifier"
     unpack="true"
