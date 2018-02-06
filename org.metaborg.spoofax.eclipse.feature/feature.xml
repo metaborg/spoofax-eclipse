@@ -71,7 +71,7 @@
   />
   <plugin
     id="meta.flowspec.java"
-    version="2.4.0.qualifier"
+    version="2.5.0.qualifier"
     unpack="false"
   />
   <plugin
