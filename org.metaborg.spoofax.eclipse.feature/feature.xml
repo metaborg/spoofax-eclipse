@@ -136,11 +136,6 @@
     unpack="false"
   />
   <plugin
-    id="org.metaborg.spoofax.shell.eclipse.externaldeps"
-    version="2.5.0.qualifier"
-    unpack="false"
-  />
-  <plugin
     id="org.metaborg.spoofax.shell.eclipse"
     version="2.5.0.qualifier"
     unpack="false"
