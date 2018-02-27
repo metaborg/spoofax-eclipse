@@ -185,6 +185,7 @@
               snakeyaml,
               slf4j-api,
               strategoxt-min-jar,
+              truffle-api,
             </Embed-Dependency>
             <!-- Export dependency packages -->
             <Export-Package>
@@ -207,7 +208,8 @@
               org.slf4j.*;provider=metaborg;mandatory:=provider;version=0,
               org.yaml.snakeyaml.*;provider=metaborg;mandatory:=provider;version=0,
               org.strategoxt.*,
-              rx.*;provider=metaborg;mandatory:=provider;version=0
+              rx.*;provider=metaborg;mandatory:=provider;version=0,
+              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0
             </Export-Package>
             <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that 
               we do not need. -->
