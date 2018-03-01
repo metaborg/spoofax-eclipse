@@ -144,6 +144,11 @@
     unpack="true"
   />
   <plugin
+    id="meta.flowspec.lang.eclipse"
+    version="2.5.0.qualifier"
+    unpack="true"
+  />
+  <plugin
     id="org.metaborg.meta.lib.analysis.eclipse"
     version="2.5.0.qualifier"
     unpack="true"
