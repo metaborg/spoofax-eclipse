@@ -60,12 +60,12 @@
     unpack="false"
   />
   <plugin
-    id="org.metaborg.meta.nabl2.terms"
+    id="nabl2.terms"
     version="2.5.0.qualifier"
     unpack="false"
   />
   <plugin
-    id="org.metaborg.meta.nabl2.java"
+    id="nabl2.solver"
     version="2.5.0.qualifier"
     unpack="false"
   />
