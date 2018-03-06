@@ -109,7 +109,7 @@
     unpack="true"
   />
   <plugin
-    id="org.metaborg.meta.nabl2.integration.dynsem.eclipse"
+    id="org.metaborg.meta.nabl2.ext.dynsem.eclipse"
     version="2.5.0.qualifier"
     unpack="true"
   />
