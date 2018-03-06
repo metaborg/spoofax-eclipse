@@ -40,4 +40,5 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.util,
  org.metaborg.spoofax.core,
  org.metaborg.meta.nabl2.terms,
- org.metaborg.meta.nabl2.java
+ org.metaborg.meta.nabl2.java,
+ meta.flowspec.java
