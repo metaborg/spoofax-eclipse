@@ -70,7 +70,7 @@
     unpack="false"
   />
   <plugin
-    id="meta.flowspec.java"
+    id="flowspec.runtime"
     version="2.5.0.qualifier"
     unpack="false"
   />

@@ -119,7 +119,7 @@
     unpack="true"
   />
   <plugin
-    id="meta.flowspec.lang.eclipse"
+    id="flowspec.lang.eclipse"
     version="2.5.0.qualifier"
     unpack="true"
   />
@@ -149,7 +149,7 @@
     unpack="true"
   />
   <plugin
-    id="meta.flowspec.lang.eclipse"
+    id="flowspec.lang.eclipse"
     version="2.5.0.qualifier"
     unpack="true"
   />

@@ -31,12 +31,11 @@ Require-Bundle: org.eclipse.ui,
  org.metaborg.spt.core,
  org.eclipse.ui.ide,
  org.metaborg.meta.nabl2.java,
- meta.flowspec.java,
+ flowspec.runtime,
  sdf2table,
  sdf2parenthesize,
  tableinterfaces,
- characterclasses,
- meta.flowspec.java
+ characterclasses
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: metaborg.org
@@ -50,7 +49,7 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.spt.core,
  org.metaborg.meta.nabl2.terms,
  org.metaborg.meta.nabl2.java,
- meta.flowspec.java,
+ flowspec.runtime,
  sdf2table,
  sdf2parenthesize,
  tableinterfaces,
