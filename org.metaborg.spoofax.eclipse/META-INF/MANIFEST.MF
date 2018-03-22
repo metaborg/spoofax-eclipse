@@ -23,6 +23,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.core,
  org.eclipse.ui.views,
+ nabl2.terms,
  nabl2.solver,
  flowspec.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
