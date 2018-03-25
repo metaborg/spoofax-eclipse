@@ -135,6 +135,8 @@
               !org.jruby.*,
               !org.w3c.*,
               !org.xml.*,
+              !com.github.luben.*,
+              !org.brotli.dec.*,
               org.spoofax*,
               org.metaborg*,
               org.strategoxt.*,
