@@ -20,7 +20,6 @@ import org.metaborg.core.language.dialect.IDialectProcessor;
 import org.metaborg.core.processing.ILanguageChangeProcessor;
 import org.metaborg.core.processing.IProcessor;
 import org.metaborg.core.processing.ITask;
-import org.metaborg.core.processing.NullCancel;
 import org.metaborg.core.project.IProject;
 import org.metaborg.core.resource.ResourceChange;
 import org.metaborg.core.syntax.IParseUnit;
@@ -39,6 +38,7 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.util.Ref;
 import org.metaborg.util.task.ICancel;
 import org.metaborg.util.task.IProgress;
+import org.metaborg.util.task.NullCancel;
 
 import com.google.inject.Inject;
 
