@@ -25,6 +25,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views,
  nabl2.terms,
  nabl2.solver,
+ statix.solver,
  flowspec.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: metaborg.org
@@ -42,4 +43,5 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.spoofax.core,
  nabl2.terms,
  nabl2.solver,
+ statix.solver,
  flowspec.runtime
