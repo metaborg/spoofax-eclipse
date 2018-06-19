@@ -124,6 +124,11 @@
     unpack="true"
   />
   <plugin
+    id="statix.test.eclipse"
+    version="2.5.0.qualifier"
+    unpack="true"
+  />
+  <plugin
     id="flowspec.lang.eclipse"
     version="2.5.0.qualifier"
     unpack="true"
