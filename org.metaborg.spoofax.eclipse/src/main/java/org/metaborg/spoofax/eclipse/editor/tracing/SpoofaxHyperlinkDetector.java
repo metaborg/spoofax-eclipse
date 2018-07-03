@@ -1,5 +1,7 @@
 package org.metaborg.spoofax.eclipse.editor.tracing;
 
+import java.util.ArrayList;
+
 import org.apache.commons.vfs2.FileObject;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
@@ -10,6 +12,7 @@ import org.metaborg.core.analysis.IAnalyzeUnit;
 import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.processing.analyze.IAnalysisResultRequester;
 import org.metaborg.core.processing.parse.IParseResultRequester;
+import org.metaborg.core.source.ISourceLocation;
 import org.metaborg.core.syntax.IInputUnit;
 import org.metaborg.core.syntax.IParseUnit;
 import org.metaborg.core.tracing.IResolverService;
@@ -19,6 +22,8 @@ import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
+
+import com.google.common.collect.Lists;
 
 public class SpoofaxHyperlinkDetector<I extends IInputUnit, P extends IParseUnit, A extends IAnalyzeUnit, F>
     extends AbstractHyperlinkDetector {
@@ -92,7 +97,10 @@ public class SpoofaxHyperlinkDetector<I extends IInputUnit, P extends IParseUnit
         if(resolution == null) {
             return null;
         }
-        final IHyperlink hyperlink = new SpoofaxHyperlink(resourceService, resolution, resource, editor);
-        return new IHyperlink[] { hyperlink };
+        ArrayList<IHyperlink> hyperlinks = Lists.newArrayList();
+        for (ISourceLocation target : resolution.targets) {
+            hyperlinks.add(new SpoofaxHyperlink(resourceService, resolution.highlight, target, resource, editor));
+        }
+        return hyperlinks.toArray(new IHyperlink[0]);
     }
 }
