@@ -12,7 +12,6 @@ import org.metaborg.core.analysis.IAnalyzeUnit;
 import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.processing.analyze.IAnalysisResultRequester;
 import org.metaborg.core.processing.parse.IParseResultRequester;
-import org.metaborg.core.source.ISourceLocation;
 import org.metaborg.core.syntax.IInputUnit;
 import org.metaborg.core.syntax.IParseUnit;
 import org.metaborg.core.tracing.IResolverService;
@@ -98,8 +97,8 @@ public class SpoofaxHyperlinkDetector<I extends IInputUnit, P extends IParseUnit
             return null;
         }
         ArrayList<IHyperlink> hyperlinks = Lists.newArrayList();
-        for (ISourceLocation target : resolution.targets) {
-            hyperlinks.add(new SpoofaxHyperlink(resourceService, resolution.highlight, target, resource, editor));
+        for (Resolution.Target target : resolution.targets) {
+            hyperlinks.add(new SpoofaxHyperlink(resourceService, resolution.highlight, target.location, resource, editor, target.hyperlinkName));
         }
         return hyperlinks.toArray(new IHyperlink[0]);
     }
