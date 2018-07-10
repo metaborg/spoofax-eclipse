@@ -16,6 +16,7 @@ import org.metaborg.core.syntax.IInputUnit;
 import org.metaborg.core.syntax.IParseUnit;
 import org.metaborg.core.tracing.IResolverService;
 import org.metaborg.core.tracing.Resolution;
+import org.metaborg.core.tracing.ResolutionTarget;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditor;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.Nullable;
@@ -97,7 +98,7 @@ public class SpoofaxHyperlinkDetector<I extends IInputUnit, P extends IParseUnit
             return null;
         }
         ArrayList<IHyperlink> hyperlinks = Lists.newArrayList();
-        for (Resolution.Target target : resolution.targets) {
+        for (ResolutionTarget target : resolution.targets) {
             hyperlinks.add(new SpoofaxHyperlink(resourceService, resolution.highlight, target.location, resource, editor, target.hyperlinkName));
         }
         return hyperlinks.toArray(new IHyperlink[0]);
