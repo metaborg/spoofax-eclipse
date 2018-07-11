@@ -11,12 +11,14 @@ import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
+import org.eclipse.jface.text.hyperlink.IHyperlinkPresenter;
 import org.eclipse.jface.text.hyperlink.URLHyperlinkDetector;
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension2;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 import org.metaborg.core.analysis.IAnalyzeUnit;
@@ -124,6 +126,14 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
 
         return new IHyperlinkDetector[] { new SpoofaxHyperlinkDetector<>(resourceService, parseResultRequester,
             analysisResultRequester, referenceResolver, resource, language, editor), new URLHyperlinkDetector() };
+    }
+
+    @Override
+    public IHyperlinkPresenter getHyperlinkPresenter(ISourceViewer sourceViewer) {
+        if (fPreferenceStore == null)
+            return new MetaborgMultipleHyperlinkPresenter(new RGB(0, 0, 255));
+
+        return new MetaborgMultipleHyperlinkPresenter(fPreferenceStore);
     }
 
     @Override public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
