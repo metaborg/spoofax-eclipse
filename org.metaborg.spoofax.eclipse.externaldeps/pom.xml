@@ -136,6 +136,11 @@
       <groupId>com.oracle.truffle</groupId>
       <artifactId>truffle-api</artifactId>
     </dependency>
+    <!-- Kotlin -->
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib-jdk8</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -159,6 +164,7 @@
             <!-- Replace SNAPSHOT in the manifest version with given qualifier. -->
             <Bundle-Version>$(replace;${project.version};-SNAPSHOT;.${forceContextQualifier})</Bundle-Version>
             <!-- Embed dependencies into plugin bundle, so they are exportable. -->
+            <Embed-Transitive>true</Embed-Transitive>
             <Embed-Dependency>
               aopalliance,
               commons-configuration2,
@@ -186,30 +192,13 @@
               slf4j-api,
               strategoxt-min-jar,
               truffle-api,
+              kotlin-stdlib-jdk8,
             </Embed-Dependency>
             <!-- Export dependency packages -->
             <Export-Package>
               !com.google.common.base.internal,
               !com.google.inject.internal.*,
-              ch.qos.logback.classic.*;provider=metaborg;mandatory:=provider;version=0,
-              ch.qos.logback.core.*;provider=metaborg;mandatory:=provider;version=0,
-              com.fasterxml.jackson.*;provider=metaborg;mandatory:=provider;version=0,
-              com.google.common.*;provider=metaborg;mandatory:=provider;version=0,
-              com.google.inject.*;provider=metaborg;mandatory:=provider;version=0,
-              org.aopalliance.*;provider=metaborg;mandatory:=provider;version=0,
-              org.apache.commons.configuration2.*;provider=metaborg;mandatory:=provider;version=0,
-              org.apache.commons.io.*;provider=metaborg;mandatory:=provider;version=0,
-              org.apache.commons.lang3.*;provider=metaborg;mandatory:=provider;version=0,
-              org.apache.commons.logging.*;provider=metaborg;mandatory:=provider;version=0,
-              io.usethesource.capsule.*;provider=metaborg;mandatory:=provider;version=0,
-              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0,
-              org.apache.commons.vfs2.*;provider=metaborg;mandatory:=provider;version=0,
-              com.virtlink.commons.configuration2.jackson.*;provider=metaborg;mandatory:=provider;version=0,
-              org.slf4j.*;provider=metaborg;mandatory:=provider;version=0,
-              org.yaml.snakeyaml.*;provider=metaborg;mandatory:=provider;version=0,
-              org.strategoxt.*,
-              rx.*;provider=metaborg;mandatory:=provider;version=0,
-              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0
+              *;provider=metaborg;mandatory:=provider
             </Export-Package>
             <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that 
               we do not need. -->
@@ -231,7 +220,7 @@
               org.metaborg.*,
               org.strategoxt.*,
               org.apache.tools.ant,
-              *;provider=metaborg;mandatory:=provider;version=0
+              !*
             </Import-Package>
             <!-- Don't generate uses declarations in exported packages. -->
             <_nouses>true</_nouses>
