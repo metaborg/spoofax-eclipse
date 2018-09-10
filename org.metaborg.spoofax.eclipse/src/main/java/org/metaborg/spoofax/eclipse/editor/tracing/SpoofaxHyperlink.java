@@ -9,34 +9,39 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.metaborg.core.source.ISourceLocation;
-import org.metaborg.core.tracing.Resolution;
+import org.metaborg.core.source.ISourceRegion;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.EditorUtils;
+import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.eclipse.util.RegionUtils;
-
-import com.google.common.collect.Iterables;
 
 final class SpoofaxHyperlink implements IHyperlink {
     private final IEclipseResourceService resourceService;
 
-    private final Resolution resolution;
+    private final ISourceRegion highlight;
+    private final ISourceLocation target;
     private final FileObject editorResource;
     private final ITextEditor editor;
+    private final @Nullable String hyperlinkText;
 
+    public SpoofaxHyperlink(IEclipseResourceService resourceService, ISourceRegion highlight, ISourceLocation target,
+            FileObject editorResource, ITextEditor editor) {
+        this(resourceService, highlight, target, editorResource, editor, null);
+    }
 
-    public SpoofaxHyperlink(IEclipseResourceService resourceService, Resolution resolution, FileObject editorResource,
-        ITextEditor editor) {
+    public SpoofaxHyperlink(IEclipseResourceService resourceService, ISourceRegion highlight, ISourceLocation target,
+            FileObject editorResource, ITextEditor editor, @Nullable String hyperlinkText) {
         this.resourceService = resourceService;
 
-        this.resolution = resolution;
+        this.highlight = highlight;
+        this.target = target;
         this.editorResource = editorResource;
         this.editor = editor;
+        this.hyperlinkText = hyperlinkText;
     }
 
 
     @Override public void open() {
-        // GTODO: support multiple targets
-        final ISourceLocation target = Iterables.get(resolution.targets, 0);
         final FileObject targetResource = target.resource();
         final int offset = target.region().startOffset();
 
@@ -54,15 +59,15 @@ final class SpoofaxHyperlink implements IHyperlink {
         }
     }
 
-    @Override public String getTypeLabel() {
+    @Override public @Nullable String getTypeLabel() {
         return null;
     }
 
-    @Override public String getHyperlinkText() {
-        return null;
+    @Override public @Nullable String getHyperlinkText() {
+        return hyperlinkText;
     }
 
     @Override public IRegion getHyperlinkRegion() {
-        return RegionUtils.fromCore(resolution.highlight);
+        return RegionUtils.fromCore(highlight);
     }
 }

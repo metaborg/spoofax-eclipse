@@ -18,6 +18,7 @@ import org.metaborg.core.language.LanguageIdentifier;
 import org.metaborg.core.project.IProject;
 import org.metaborg.core.project.IProjectService;
 import org.metaborg.core.source.ISourceTextService;
+import org.metaborg.spoofax.core.analysis.ISpoofaxAnalysisService;
 import org.metaborg.spoofax.core.processing.analyze.ISpoofaxAnalysisResultRequester;
 import org.metaborg.spoofax.core.processing.parse.ISpoofaxParseResultRequester;
 import org.metaborg.spoofax.core.transform.ISpoofaxTransformService;
@@ -49,6 +50,7 @@ public class TransformHandler extends AbstractHandler {
     private final ISpoofaxUnitService unitService;
     private final ISpoofaxTransformService transformService;
     private final ISpoofaxParseResultRequester parseResultRequester;
+    private final ISpoofaxAnalysisService analysisService;
     private final ISpoofaxAnalysisResultRequester analysisResultRequester;
     private final IEclipseEditorRegistry<?> editorRegistry;
 
@@ -65,6 +67,7 @@ public class TransformHandler extends AbstractHandler {
         this.unitService = injector.getInstance(ISpoofaxUnitService.class);
         this.transformService = injector.getInstance(ISpoofaxTransformService.class);
         this.parseResultRequester = injector.getInstance(ISpoofaxParseResultRequester.class);
+        this.analysisService = injector.getInstance(ISpoofaxAnalysisService.class);
         this.analysisResultRequester = injector.getInstance(ISpoofaxAnalysisResultRequester.class);
         this.editorRegistry =
             injector.getInstance(Key.get(new TypeLiteral<IEclipseEditorRegistry<IStrategoTerm>>() {}));
@@ -123,7 +126,7 @@ public class TransformHandler extends AbstractHandler {
         }
 
         final Job transformJob = new TransformJob(contextService, unitService, transformService, parseResultRequester,
-            analysisResultRequester, language, resources, goal);
+            analysisService, analysisResultRequester, language, resources, goal);
         transformJob.schedule();
 
         return null;

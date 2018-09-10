@@ -15,6 +15,7 @@ import org.metaborg.core.context.IContextService;
 import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.project.IProject;
 import org.metaborg.core.transform.TransformException;
+import org.metaborg.spoofax.core.analysis.ISpoofaxAnalysisService;
 import org.metaborg.spoofax.core.processing.analyze.ISpoofaxAnalysisResultRequester;
 import org.metaborg.spoofax.core.processing.parse.ISpoofaxParseResultRequester;
 import org.metaborg.spoofax.core.transform.ISpoofaxTransformService;
@@ -40,6 +41,7 @@ public class TransformJob extends Job {
     private final ISpoofaxUnitService unitService;
     private final ISpoofaxTransformService transformService;
     private final ISpoofaxParseResultRequester parseResultRequester;
+    private final ISpoofaxAnalysisService analysisService;
     private final ISpoofaxAnalysisResultRequester analysisResultRequester;
 
     private final ILanguageImpl langImpl;
@@ -51,14 +53,15 @@ public class TransformJob extends Job {
 
     public TransformJob(IContextService contextService, ISpoofaxUnitService unitService,
         ISpoofaxTransformService transformService, ISpoofaxParseResultRequester parseResultProcessor,
-        ISpoofaxAnalysisResultRequester analysisResultProcessor, ILanguageImpl langImpl,
-        Iterable<TransformResource> resources, ITransformGoal goal) {
+        ISpoofaxAnalysisService analysisService, ISpoofaxAnalysisResultRequester analysisResultProcessor,
+        ILanguageImpl langImpl, Iterable<TransformResource> resources, ITransformGoal goal) {
         super("Transforming resources");
 
         this.contextService = contextService;
         this.unitService = unitService;
         this.transformService = transformService;
         this.parseResultRequester = parseResultProcessor;
+        this.analysisService = analysisService;
         this.analysisResultRequester = analysisResultProcessor;
 
         this.langImpl = langImpl;
@@ -125,7 +128,7 @@ public class TransformJob extends Job {
         throws ContextException, TransformException {
         final FileObject source = input.source();
         final IContext context = contextService.get(source, project, langImpl);
-        if(transformService.requiresAnalysis(context, goal)) {
+        if(transformService.requiresAnalysis(context, goal) && analysisService.available(langImpl)) {
             monitor.setWorkRemaining(3);
             monitor.setTaskName("Waiting for analysis result");
             final ISpoofaxAnalyzeUnit result = analysisResultRequester.request(input, context).toBlocking().single();
