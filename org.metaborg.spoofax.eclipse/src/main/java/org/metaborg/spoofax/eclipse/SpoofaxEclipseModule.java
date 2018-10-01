@@ -1,12 +1,18 @@
 package org.metaborg.spoofax.eclipse;
 
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.multibindings.Multibinder;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.metaborg.aesi.codecompletion.ICodeCompletionService;
 import org.metaborg.core.MetaborgModule;
 import org.metaborg.core.editor.IEditorRegistry;
 import org.metaborg.core.processing.ILanguageChangeProcessor;
 import org.metaborg.core.processing.IProcessor;
 import org.metaborg.core.project.IProjectService;
 import org.metaborg.core.resource.IResourceService;
+import org.metaborg.spoofax.aesi.codecompletion.*;
+import org.metaborg.spoofax.aesi.resources.EclipseSpoofaxResourceService;
+import org.metaborg.spoofax.aesi.resources.ISpoofaxResourceService;
 import org.metaborg.spoofax.core.SpoofaxModule;
 import org.metaborg.spoofax.core.processing.ISpoofaxProcessor;
 import org.metaborg.spoofax.core.unit.ISpoofaxAnalyzeUnit;
@@ -16,6 +22,7 @@ import org.metaborg.spoofax.core.unit.ISpoofaxTransformUnit;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditorRegistry;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditorRegistryInternal;
 import org.metaborg.spoofax.eclipse.editor.SpoofaxEditorRegistry;
+import org.metaborg.spoofax.eclipse.editor.completion.AesiContentAssistProcessor;
 import org.metaborg.spoofax.eclipse.job.GlobalSchedulingRules;
 import org.metaborg.spoofax.eclipse.language.EclipseLanguageChangeProcessor;
 import org.metaborg.spoofax.eclipse.language.LanguageLoader;
@@ -47,6 +54,9 @@ public class SpoofaxEclipseModule extends SpoofaxModule {
         bind(EclipseLanguageChangeProcessor.class).in(Singleton.class);
         bind(LanguageLoader.class).in(Singleton.class);
         bind(SpoofaxPreferences.class).in(Singleton.class);
+
+        bindAesiServices();
+        bindCodeCompletion();
     }
 
 
@@ -101,5 +111,31 @@ public class SpoofaxEclipseModule extends SpoofaxModule {
         bind(new TypeLiteral<IEclipseEditorRegistry<IStrategoTerm>>() {}).to(SpoofaxEditorRegistry.class);
         bind(IEclipseEditorRegistry.class).to(SpoofaxEditorRegistry.class);
         bind(IEclipseEditorRegistryInternal.class).to(SpoofaxEditorRegistry.class);
+    }
+
+    protected void bindAesiServices() {
+        // Resources
+        bind(EclipseSpoofaxResourceService.class).in(Singleton.class);
+        bind(ISpoofaxResourceService.class).to(EclipseSpoofaxResourceService.class);
+        bind(org.metaborg.aesi.resources.IResourceService.class).to(EclipseSpoofaxResourceService.class);
+
+        // Code completion
+        bind(SpoofaxCodeCompletionService.class).in(Singleton.class);
+        bind(ISpoofaxCodeCompletionService.class).to(SpoofaxCodeCompletionService.class);
+        bind(ICodeCompletionService.class).to(SpoofaxCodeCompletionService.class);
+    }
+
+    protected void bindCodeCompletion() {
+        install(new FactoryModuleBuilder()
+                .implement(AesiContentAssistProcessor.class, AesiContentAssistProcessor.class)
+                .build(AesiContentAssistProcessor.Factory.class));
+
+//        Multibinder.newSetBinder(binder(), ICodeCompletionsProvider.class).addBinding()
+//                .to(JSGLRCodeCompletionsProvider.class);
+//        Multibinder.newSetBinder(binder(), ICodeCompletionsProvider.class).addBinding()
+//                .to(DummyCodeCompletionsProvider.class);
+        Multibinder.newSetBinder(binder(), ICodeCompletionsProvider.class).addBinding()
+                .to(NameCodeCompletionsProvider.class);
+
     }
 }

@@ -56,6 +56,7 @@ import org.metaborg.core.tracing.IResolverService;
 import org.metaborg.core.unit.IInputUnitService;
 import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
 import org.metaborg.spoofax.eclipse.SpoofaxPreferences;
+import org.metaborg.spoofax.eclipse.editor.completion.AesiContentAssistProcessor;
 import org.metaborg.spoofax.eclipse.editor.outline.SpoofaxOutlinePage;
 import org.metaborg.spoofax.eclipse.editor.outline.SpoofaxOutlinePopup;
 import org.metaborg.spoofax.eclipse.job.GlobalSchedulingRules;
@@ -87,6 +88,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
     protected IParseResultProcessor<I, P> parseResultProcessor;
     protected IAnalysisResultProcessor<I, P, A> analysisResultProcessor;
     protected IAnalysisResultRequester<I, A> analysisResultRequester;
+    protected AesiContentAssistProcessor.Factory contentAssistProcessorFactory;
 
     protected GlobalSchedulingRules globalRules;
     protected SpoofaxPreferences preferences;
@@ -320,6 +322,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         this.projectService = injector.getInstance(IProjectService.class);
         this.globalRules = injector.getInstance(GlobalSchedulingRules.class);
         this.preferences = injector.getInstance(SpoofaxPreferences.class);
+        this.contentAssistProcessorFactory = injector.getInstance(AesiContentAssistProcessor.Factory.class);
 
     }
 
@@ -327,7 +330,8 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
 
     private SourceViewerConfiguration createSourceViewerConfiguration() {
         return new MetaBorgSourceViewerConfiguration<>(resourceService, unitService, syntaxService,
-            parseResultProcessor, analysisResultProcessor, resolverService, hoverService, getPreferenceStore(), this);
+            parseResultProcessor, analysisResultProcessor, resolverService, hoverService, getPreferenceStore(), this,
+                contentAssistProcessorFactory);
     }
 
     @Override protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {

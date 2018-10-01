@@ -9,6 +9,7 @@ import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlinkPresenter;
@@ -31,6 +32,7 @@ import org.metaborg.core.syntax.ISyntaxService;
 import org.metaborg.core.tracing.IHoverService;
 import org.metaborg.core.tracing.IResolverService;
 import org.metaborg.core.unit.IInputUnitService;
+import org.metaborg.spoofax.eclipse.editor.completion.AesiContentAssistProcessor;
 import org.metaborg.spoofax.eclipse.editor.completion.SpoofaxContentAssistProcessor;
 import org.metaborg.spoofax.eclipse.editor.tracing.SpoofaxHyperlinkDetector;
 import org.metaborg.spoofax.eclipse.editor.tracing.SpoofaxTextHover;
@@ -52,14 +54,17 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
     private final IAnalysisResultRequester<I, A> analysisResultRequester;
     private final IResolverService<P, A> referenceResolver;
     private final IHoverService<P, A> hoverService;
+    private final AesiContentAssistProcessor.Factory contentAssistProcessorFactory;
 
     private final IEclipseEditor<F> editor;
 
 
-    public MetaBorgSourceViewerConfiguration(IEclipseResourceService resourceService, IInputUnitService<I> unitService,
-        ISyntaxService<I, P> syntaxService, IParseResultRequester<I, P> parseResultRequester,
-        IAnalysisResultRequester<I, A> analysisResultRequester, IResolverService<P, A> referenceResolver,
-        IHoverService<P, A> hoverService, IPreferenceStore preferenceStore, IEclipseEditor<F> editor) {
+    public MetaBorgSourceViewerConfiguration(
+            IEclipseResourceService resourceService, IInputUnitService<I> unitService,
+            ISyntaxService<I, P> syntaxService, IParseResultRequester<I, P> parseResultRequester,
+            IAnalysisResultRequester<I, A> analysisResultRequester, IResolverService<P, A> referenceResolver,
+            IHoverService<P, A> hoverService, IPreferenceStore preferenceStore, IEclipseEditor<F> editor,
+            AesiContentAssistProcessor.Factory contentAssistProcessorFactory) {
         super(preferenceStore);
 
         this.resourceService = resourceService;
@@ -70,7 +75,7 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
         this.analysisResultRequester = analysisResultRequester;
         this.referenceResolver = referenceResolver;
         this.hoverService = hoverService;
-
+        this.contentAssistProcessorFactory = contentAssistProcessorFactory;
 
         this.editor = editor;
     }
@@ -97,8 +102,9 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
 
         final ContentAssistant assistant = new ContentAssistant();
         final IInformationControlCreator informationControlCreator = getCompletionInformationControlCreator();
-        final SpoofaxContentAssistProcessor<I, P> processor = new SpoofaxContentAssistProcessor<>(unitService,
-            parseResultRequester, informationControlCreator, resource, document, language);
+        IContentAssistProcessor processor = contentAssistProcessorFactory.create(informationControlCreator, editor);
+//        final SpoofaxContentAssistProcessor<I, P> processor = new SpoofaxContentAssistProcessor<>(unitService,
+//            parseResultRequester, informationControlCreator, resource, document, language);
         assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
         assistant.setRepeatedInvocationMode(true);
         assistant.setInformationControlCreator(informationControlCreator);
