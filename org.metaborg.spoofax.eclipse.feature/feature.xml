@@ -2,7 +2,7 @@
 <feature
   id="org.metaborg.spoofax.eclipse.feature"
   plugin="org.metaborg.spoofax.eclipse"
-  version="2.6.0.qualifier"
+  version="2.5.1"
   label="Spoofax Eclipse runtime"
 >
   <requires>
@@ -24,140 +24,140 @@
   <!-- Spoofax  -->
   <plugin
     id="org.metaborg.core"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.metaborg.spoofax.core"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.metaborg.spoofax.eclipse"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.metaborg.spoofax.eclipse.util"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
 
   <!-- Metaborg libraries -->
   <plugin
     id="org.metaborg.util"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.terms"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.terms.typesmart"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="nabl2.terms"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="nabl2.solver"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="statix.solver"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="flowspec.runtime"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.interpreter.library.index"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.metaborg.runtime.task"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   
   <!-- Stratego interpreter and libraries -->
   <plugin
     id="org.spoofax.interpreter.core"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.interpreter.library.java"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.interpreter.library.xml"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
 
   <!-- Parser -->
   <plugin
     id="org.spoofax.jsglr"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.interpreter.library.jsglr"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="org.spoofax.jsglr2"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="sdf2table"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="sdf2parenthesize"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="characterclasses"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
   <plugin
     id="tableinterfaces"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="false"
   />
 
   <!-- Other dependencies, unpack some plugins for access to its JAR/native files. -->
   <plugin
     id="org.metaborg.spoofax.eclipse.externaldeps"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="true"
   />
   <plugin
     id="org.metaborg.spoofax.nativebundle"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="true"
   />
   <plugin
     id="org.strategoxt.strj"
-    version="2.6.0.qualifier"
+    version="2.5.1"
     unpack="true"
   />
 </feature>
