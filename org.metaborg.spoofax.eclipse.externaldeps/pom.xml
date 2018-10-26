@@ -136,6 +136,10 @@
       <groupId>com.oracle.truffle</groupId>
       <artifactId>truffle-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.graalvm</groupId>
+      <artifactId>graal-sdk</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -184,7 +188,7 @@
               snakeyaml,
               slf4j-api,
               strategoxt-min-jar,
-              truffle-api,
+              truffle-api
             </Embed-Dependency>
             <!-- Export dependency packages -->
             <Export-Package>
