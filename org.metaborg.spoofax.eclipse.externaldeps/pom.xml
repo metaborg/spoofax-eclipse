@@ -212,7 +212,7 @@
               org.yaml.snakeyaml.*;provider=metaborg;mandatory:=provider;version=0,
               org.strategoxt.*,
               rx.*;provider=metaborg;mandatory:=provider;version=0,
-              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0
+              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0,
               org.graalvm.*;provider=metaborg;mandatory:=provider;version=0
             </Export-Package>
             <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that 
