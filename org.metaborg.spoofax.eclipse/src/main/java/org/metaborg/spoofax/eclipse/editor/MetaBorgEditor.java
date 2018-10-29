@@ -327,7 +327,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
 
     private SourceViewerConfiguration createSourceViewerConfiguration() {
         return new MetaBorgSourceViewerConfiguration<>(resourceService, unitService, syntaxService,
-            parseResultProcessor, analysisResultProcessor, resolverService, hoverService, getPreferenceStore(), this);
+            parseResultProcessor, analysisResultProcessor, resolverService, hoverService, projectService, contextService, getPreferenceStore(), this);
     }
 
     @Override protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {

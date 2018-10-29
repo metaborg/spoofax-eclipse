@@ -23,20 +23,22 @@ import org.eclipse.jface.text.link.ProposalPosition;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.metaborg.core.MetaborgException;
+import org.metaborg.core.analysis.IAnalysisService;
 import org.metaborg.core.completion.CompletionKind;
 import org.metaborg.core.completion.ICompletion;
 import org.metaborg.core.completion.ICompletionItem;
-import org.metaborg.core.completion.ICompletionService;
 import org.metaborg.core.completion.IPlaceholderCompletionItem;
+import org.metaborg.core.context.IContext;
+import org.metaborg.core.context.IContextService;
 import org.metaborg.core.language.ILanguageImpl;
+import org.metaborg.core.project.IProject;
+import org.metaborg.core.project.IProjectService;
 import org.metaborg.core.syntax.ISyntaxService;
 import org.metaborg.core.tracing.ITracingService;
 import org.metaborg.core.unit.IInputUnitService;
+import org.metaborg.spoofax.core.completion.ISpoofaxCompletionService;
 import org.metaborg.spoofax.core.completion.PlaceholderCompletionItem;
-import org.metaborg.spoofax.core.unit.ISpoofaxAnalyzeUnit;
-import org.metaborg.spoofax.core.unit.ISpoofaxInputUnit;
-import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
-import org.metaborg.spoofax.core.unit.ISpoofaxTransformUnit;
+import org.metaborg.spoofax.core.unit.*;
 import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
@@ -53,6 +55,7 @@ import com.google.common.io.BaseEncoding;
 
 public class SpoofaxCompletionProposal
     implements ICompletionProposal, ICompletionProposalExtension3, ICompletionProposalExtension5 {
+
     private static class CompletionData {
         public final String text;
         public final Multimap<String, ProposalPosition> placeholders;
@@ -62,7 +65,7 @@ public class SpoofaxCompletionProposal
 
 
         public CompletionData(IDocument document, String text, ITextViewer viewer, int offset, ICompletion completion,
-            ICompletionService<ISpoofaxParseUnit> completionService, ISpoofaxParseUnit parseResult,
+                              ISpoofaxCompletionService completionService, ISpoofaxParseUnit parseResult, ISpoofaxAnalyzeUnit analyzeResult,
             IInformationControlCreator informationControlCreator) {
             placeholders = ArrayListMultimap.create();
             this.text = text;
@@ -95,7 +98,7 @@ public class SpoofaxCompletionProposal
                     final ProposalPosition position =
                         new ProposalPosition(document, placeholderItem.startOffset(), placeholderLenght,
                             (sequenceNumber < sequenceSize) ? sequenceNumber++ : 0, getProposals(completionService,
-                                parseResult, viewer, informationControlCreator, cursorPosition, placeholderItem));
+                                parseResult, analyzeResult, viewer, informationControlCreator, cursorPosition, placeholderItem));
                     placeholders.put(name, position);
                 }
             }
@@ -105,13 +108,13 @@ public class SpoofaxCompletionProposal
 
         }
 
-        private ICompletionProposal[] getProposals(ICompletionService<ISpoofaxParseUnit> completionService,
-            ISpoofaxParseUnit parseResult, ITextViewer viewer, IInformationControlCreator informationControlCreator,
+        private ICompletionProposal[] getProposals(ISpoofaxCompletionService completionService,
+            ISpoofaxParseUnit parseResult, ISpoofaxAnalyzeUnit analyzeResult, ITextViewer viewer, IInformationControlCreator informationControlCreator,
             int offset, IPlaceholderCompletionItem placeholderItem) {
             // call the completion proposer to calculate the proposals
             final Iterable<ICompletion> completions;
             try {
-                completions = completionService.get(offset, parseResult, true);
+                completions = completionService.get(offset, parseResult, analyzeResult, true);
             } catch(MetaborgException e) {
                 return null;
             }
@@ -135,9 +138,12 @@ public class SpoofaxCompletionProposal
     private final ITextViewer textViewer;
     private int offset;
     private ICompletion completion;
-    private final ICompletionService<ISpoofaxParseUnit> completionService;
+    private final ISpoofaxCompletionService completionService;
     private final IInputUnitService<ISpoofaxInputUnit> unitService;
+    private final IContextService contextService;
+    private final IProjectService projectService;
     private final ISyntaxService<ISpoofaxInputUnit, ISpoofaxParseUnit> syntaxService;
+    private final IAnalysisService<ISpoofaxParseUnit, ISpoofaxAnalyzeUnit, ISpoofaxAnalyzeUnitUpdate> analysisService;
     private final ITracingService<ISpoofaxParseUnit, ISpoofaxAnalyzeUnit, ISpoofaxTransformUnit<?>, IStrategoTerm> tracingService;
     private final FileObject source;
     private final ILanguageImpl language;
@@ -153,7 +159,10 @@ public class SpoofaxCompletionProposal
         this.completionService = SpoofaxPlugin.spoofax().completionService;
         this.unitService = SpoofaxPlugin.spoofax().unitService;
         this.syntaxService = SpoofaxPlugin.spoofax().syntaxService;
+        this.analysisService = SpoofaxPlugin.spoofax().analysisService;
         this.tracingService = SpoofaxPlugin.spoofax().tracingService;
+        this.contextService = SpoofaxPlugin.spoofax().contextService;
+        this.projectService = SpoofaxPlugin.spoofax().projectService;
         this.source = source;
         this.language = language;
         this.informationControlCreator = informationControlCreator;
@@ -188,16 +197,23 @@ public class SpoofaxCompletionProposal
         try {
             final ISpoofaxInputUnit input = unitService.inputUnit(source, finalText, language, null);
             completedParseResult = syntaxService.parse(input);
-            if (completedParseResult == null || completedParseResult.ast() == null){
-                throw new Exception("Could not parse completed text: \n\n" + finalText);
-            }            
         } catch(Exception e1) {
             e1.printStackTrace();
         }
+        if (completedParseResult == null || completedParseResult.ast() == null){
+            logger.error("Could not parse completed text: \n\n" + finalText);
+        }
 
-        
-        
-        
+        ISpoofaxAnalyzeUnit completedAnalyzeResult = null;
+        try {
+            final ISpoofaxInputUnit input = unitService.inputUnit(source, finalText, language, null);
+            final FileObject source = input.source();
+            final IProject project = projectService.get(source);
+            final IContext context = contextService.get(source, project, language);
+            completedAnalyzeResult = analysisService.analyze(completedParseResult, context).result();
+        } catch(Exception e1) {
+            e1.printStackTrace();
+        }
 
 
         Collection<ICompletionItem> completionItems = createItemsFromAST(completedParseResult);
@@ -206,7 +222,7 @@ public class SpoofaxCompletionProposal
         completion.setItems(completionItems);
 
         this.data = new CompletionData(document, finalText, textViewer, startOffset, completion, completionService,
-            completedParseResult, informationControlCreator);
+            completedParseResult, completedAnalyzeResult, informationControlCreator);
 
         try {
             document.replace(0, document.getLength(), finalText);

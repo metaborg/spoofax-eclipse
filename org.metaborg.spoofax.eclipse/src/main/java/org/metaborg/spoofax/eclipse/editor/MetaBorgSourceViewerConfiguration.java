@@ -22,9 +22,11 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 import org.metaborg.core.analysis.IAnalyzeUnit;
+import org.metaborg.core.context.IContextService;
 import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.processing.analyze.IAnalysisResultRequester;
 import org.metaborg.core.processing.parse.IParseResultRequester;
+import org.metaborg.core.project.IProjectService;
 import org.metaborg.core.syntax.IInputUnit;
 import org.metaborg.core.syntax.IParseUnit;
 import org.metaborg.core.syntax.ISyntaxService;
@@ -52,6 +54,8 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
     private final IAnalysisResultRequester<I, A> analysisResultRequester;
     private final IResolverService<P, A> referenceResolver;
     private final IHoverService<P, A> hoverService;
+    private final IProjectService projectService;
+    private final IContextService contextService;
 
     private final IEclipseEditor<F> editor;
 
@@ -59,7 +63,7 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
     public MetaBorgSourceViewerConfiguration(IEclipseResourceService resourceService, IInputUnitService<I> unitService,
         ISyntaxService<I, P> syntaxService, IParseResultRequester<I, P> parseResultRequester,
         IAnalysisResultRequester<I, A> analysisResultRequester, IResolverService<P, A> referenceResolver,
-        IHoverService<P, A> hoverService, IPreferenceStore preferenceStore, IEclipseEditor<F> editor) {
+        IHoverService<P, A> hoverService, IProjectService projectService, IContextService contextService, IPreferenceStore preferenceStore, IEclipseEditor<F> editor) {
         super(preferenceStore);
 
         this.resourceService = resourceService;
@@ -70,6 +74,9 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
         this.analysisResultRequester = analysisResultRequester;
         this.referenceResolver = referenceResolver;
         this.hoverService = hoverService;
+
+        this.projectService = projectService;
+        this.contextService = contextService;
 
 
         this.editor = editor;
@@ -97,8 +104,8 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
 
         final ContentAssistant assistant = new ContentAssistant();
         final IInformationControlCreator informationControlCreator = getCompletionInformationControlCreator();
-        final SpoofaxContentAssistProcessor<I, P> processor = new SpoofaxContentAssistProcessor<>(unitService,
-            parseResultRequester, informationControlCreator, resource, document, language);
+        final SpoofaxContentAssistProcessor<I, P, A> processor = new SpoofaxContentAssistProcessor<>(unitService,
+                parseResultRequester, analysisResultRequester, projectService, contextService, informationControlCreator, resource, document, language);
         assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
         assistant.setRepeatedInvocationMode(true);
         assistant.setInformationControlCreator(informationControlCreator);
