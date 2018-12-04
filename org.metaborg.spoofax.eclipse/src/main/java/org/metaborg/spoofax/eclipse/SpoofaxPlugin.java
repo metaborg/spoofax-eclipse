@@ -2,10 +2,15 @@ package org.metaborg.spoofax.eclipse;
 
 import java.net.URL;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.metaborg.core.MetaborgException;
 import org.metaborg.core.processing.IProcessorRunner;
@@ -13,6 +18,7 @@ import org.metaborg.spoofax.core.Spoofax;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditorRegistryInternal;
 import org.metaborg.spoofax.eclipse.logging.LoggingConfiguration;
 import org.metaborg.spoofax.eclipse.processing.SpoofaxProcessor;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,16 +63,25 @@ public class SpoofaxPlugin extends AbstractUIPlugin implements IStartup {
     }
 
     @Override protected void initializeImageRegistry(ImageRegistry reg) {
-        reg.put("expansion-icon", createImageFromURL("icons/completion-expansion.png"));
-        reg.put("expansion-editing-icon", createImageFromURL("icons/completion-expansion-editing.png"));
-        reg.put("recovery-icon", createImageFromURL("icons/completion-recovery.png"));
+        reg.put("expansion-icon", getImageFromPlugin("org.eclipse.ui.workbench.texteditor", "/icons/full/obj16/template_obj.png"));
+        reg.put("expansion-editing-icon", getImageFromURL("icons/completion-expansion-editing.png"));
+        reg.put("recovery-icon", getImageFromURL("icons/completion-recovery.png"));
     }
 
-    private Image createImageFromURL(String URL) {
-        final URL imageURL = plugin.getBundle().getEntry(URL);
+    private Image getImageFromURL(String url) {
+        final Bundle bundle = plugin.getBundle();
+        return getImageFromBundle(bundle, url);
+    }
+
+    private Image getImageFromPlugin(String pluginID, String url) {
+        Bundle bundle = Platform.getBundle(pluginID);
+        return getImageFromBundle(bundle, url);
+    }
+
+    private Image getImageFromBundle(Bundle bundle, String url) {
+        final URL imageURL = bundle.getEntry(url);
         final ImageDescriptor descriptor = ImageDescriptor.createFromURL(imageURL);
-        final Image image = descriptor.createImage();
-        return image;
+        return descriptor.createImage();
     }
 
     @Override public void stop(BundleContext context) throws Exception {
