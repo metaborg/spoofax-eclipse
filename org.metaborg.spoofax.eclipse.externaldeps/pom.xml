@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.metaborg</groupId>
     <artifactId>parent</artifactId>
-    <version>2.5.1</version>
+    <version>2.6.0-SNAPSHOT</version>
     <relativePath>../../releng/parent</relativePath>
   </parent>
 
@@ -136,6 +136,10 @@
       <groupId>com.oracle.truffle</groupId>
       <artifactId>truffle-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.graalvm</groupId>
+      <artifactId>graal-sdk</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -168,7 +172,6 @@
               commons-logging,
               commons-vfs2,
               capsule,
-              truffle-api,
               guava,
               guice,
               guice-assistedinject,
@@ -186,6 +189,7 @@
               slf4j-api,
               strategoxt-min-jar,
               truffle-api,
+              graal-sdk
             </Embed-Dependency>
             <!-- Export dependency packages -->
             <Export-Package>
@@ -202,14 +206,14 @@
               org.apache.commons.lang3.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.logging.*;provider=metaborg;mandatory:=provider;version=0,
               io.usethesource.capsule.*;provider=metaborg;mandatory:=provider;version=0,
-              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.vfs2.*;provider=metaborg;mandatory:=provider;version=0,
               com.virtlink.commons.configuration2.jackson.*;provider=metaborg;mandatory:=provider;version=0,
               org.slf4j.*;provider=metaborg;mandatory:=provider;version=0,
               org.yaml.snakeyaml.*;provider=metaborg;mandatory:=provider;version=0,
               org.strategoxt.*,
               rx.*;provider=metaborg;mandatory:=provider;version=0,
-              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0
+              com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0,
+              org.graalvm.*;provider=metaborg;mandatory:=provider;version=0
             </Export-Package>
             <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that 
               we do not need. -->
