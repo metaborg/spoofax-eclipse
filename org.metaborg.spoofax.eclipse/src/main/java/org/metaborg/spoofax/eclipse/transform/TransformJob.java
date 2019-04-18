@@ -128,7 +128,7 @@ public class TransformJob extends Job {
         throws ContextException, TransformException {
         final FileObject source = input.source();
         final IContext context = contextService.get(source, project, langImpl);
-        if(transformService.requiresAnalysis(context, goal) && analysisService.available(langImpl)) {
+        if(transformService.requiresAnalysis(langImpl, goal) && analysisService.available(langImpl)) {
             monitor.setWorkRemaining(3);
             monitor.setTaskName("Waiting for analysis result");
             final ISpoofaxAnalyzeUnit result = analysisResultRequester.request(input, context).toBlocking().single();
