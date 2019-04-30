@@ -9,6 +9,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.viewers.ISelection;
 import org.metaborg.core.action.ITransformGoal;
 import org.metaborg.core.context.IContextService;
 import org.metaborg.core.language.ILanguageIdentifierService;
@@ -17,6 +19,7 @@ import org.metaborg.core.language.ILanguageService;
 import org.metaborg.core.language.LanguageIdentifier;
 import org.metaborg.core.project.IProject;
 import org.metaborg.core.project.IProjectService;
+import org.metaborg.core.source.ISourceRegion;
 import org.metaborg.core.source.ISourceTextService;
 import org.metaborg.spoofax.core.analysis.ISpoofaxAnalysisService;
 import org.metaborg.spoofax.core.processing.analyze.ISpoofaxAnalysisResultRequester;
@@ -27,6 +30,8 @@ import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditor;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditorRegistry;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
+import org.metaborg.spoofax.eclipse.util.Nullable;
+import org.metaborg.spoofax.eclipse.util.RegionUtils;
 import org.metaborg.spoofax.eclipse.util.handler.AbstractHandlerUtils;
 import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
@@ -99,8 +104,8 @@ public class TransformHandler extends AbstractHandler {
                     logger.format("Cannot transform resource of {}; editor has no resource or document", language);
                 throw new ExecutionException(message);
             }
-
-            resources = Iterables2.singleton(createTransformResource(editor.resource(), editor.document().get()));
+            final ISourceRegion selectedRegion = selectedRegion(editor);
+            resources = Iterables2.singleton(createTransformResource(editor.resource(), editor.document().get(), selectedRegion));
         } else {
             final Iterable<IResource> eclipseResources = AbstractHandlerUtils.toResources(event);
             if(eclipseResources == null) {
@@ -117,7 +122,7 @@ public class TransformHandler extends AbstractHandler {
 
                 try {
                     final String text = sourceTextService.text(resource);
-                    transformResources.add(createTransformResource(resource, text));
+                    transformResources.add(createTransformResource(resource, text, null));
                 } catch(IOException e) {
                     logger.error("Cannot transform {}; exception while retrieving text, skipping", e, resource);
                 }
@@ -132,8 +137,20 @@ public class TransformHandler extends AbstractHandler {
         return null;
     }
 
-    private TransformResource createTransformResource(FileObject resource, String text) {
+    private @Nullable ISourceRegion selectedRegion(IEclipseEditor<?> editor) {
+        final ISelection selection = editor.selectionProvider().getSelection();
+        if(selection == null || !(selection instanceof ITextSelection)) {
+            return null;
+        }
+        final ITextSelection textSelection = (ITextSelection) selection;
+        if(textSelection.getLength() == 0) {
+            return null;
+        }
+        return RegionUtils.toCore(textSelection);
+    }
+    
+    private TransformResource createTransformResource(FileObject resource, String text, @Nullable ISourceRegion selectedRegion) {
         final IProject project = projectService.get(resource);
-        return new TransformResource(resource, project, text);
+        return new TransformResource(resource, project, text, selectedRegion);
     }
 }
