@@ -40,4 +40,8 @@ public class SpoofaxNature implements IProjectNature {
     public static void add(IProject project, @Nullable IProgressMonitor monitor) throws CoreException {
         NatureUtils.addTo(id, project, monitor);
     }
+
+	public static void remove(IProject project, @Nullable IProgressMonitor monitor) throws CoreException {
+		NatureUtils.removeFrom(id, project, monitor);
+	}
 }

@@ -2,6 +2,10 @@
 <lifecycleMappingMetadata>
   <lifecycleMappings>
     <lifecycleMapping>
+      <packagingType>spoofax-project</packagingType>
+      <lifecycleMappingId>org.metaborg.spoofax.eclipse.m2e.lifecycle-mapping</lifecycleMappingId>
+    </lifecycleMapping>
+    <lifecycleMapping>
       <packagingType>spoofax-language</packagingType>
       <lifecycleMappingId>org.metaborg.spoofax.eclipse.meta.m2e.lifecycle-mapping</lifecycleMappingId>
     </lifecycleMapping>

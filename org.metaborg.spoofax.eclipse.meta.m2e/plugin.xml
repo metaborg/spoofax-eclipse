@@ -4,9 +4,14 @@
   <extension point="org.eclipse.m2e.core.lifecycleMappingMetadataSource" />
   <extension point="org.eclipse.m2e.core.lifecycleMappings">
     <lifecycleMapping
+      class="org.metaborg.spoofax.eclipse.m2e.LifecycleMapping"
+      id="org.metaborg.spoofax.eclipse.m2e.lifecycle-mapping"
+      name="Spoofax Lifecycle Mapping"
+    />
+    <lifecycleMapping
       class="org.metaborg.spoofax.eclipse.meta.m2e.LifecycleMapping"
       id="org.metaborg.spoofax.eclipse.meta.m2e.lifecycle-mapping"
-      name="Spoofax Lifecycle Mapping"
+      name="Spoofax Meta Lifecycle Mapping"
     />
   </extension>
 </plugin>
