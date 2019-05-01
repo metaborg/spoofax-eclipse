@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class CommonNatures {
     public static final String javaNatureId = "org.eclipse.jdt.core.javanature";
     public static final String mavenNatureId = "org.eclipse.m2e.core.maven2Nature";
+    public static final String gradleNatureId = "org.eclipse.buildship.core.gradleprojectnature";
     public static final String pdePluginNatureId = "org.eclipse.pde.PluginNature";
     public static final String pdeFeatureNatureId = "org.eclipse.pde.FeatureNature";
     public static final String pdeSiteNatureId = "org.eclipse.pde.UpdateSiteNature";

@@ -264,7 +264,7 @@ public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A exten
         }
 
         // Stop if context or analysis is unavailable.
-        if(!contextService.available(langImpl) || !analyzer.available(langImpl)) {
+        if(!analyzer.available(langImpl)) {
             return StatusUtils.success();
         }
 

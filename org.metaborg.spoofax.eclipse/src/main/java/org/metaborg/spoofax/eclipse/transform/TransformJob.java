@@ -14,6 +14,9 @@ import org.metaborg.core.context.IContext;
 import org.metaborg.core.context.IContextService;
 import org.metaborg.core.language.ILanguageImpl;
 import org.metaborg.core.project.IProject;
+import org.metaborg.core.source.ISourceRegion;
+import org.metaborg.core.transform.ITransformConfig;
+import org.metaborg.core.transform.TransformConfig;
 import org.metaborg.core.transform.TransformException;
 import org.metaborg.spoofax.core.analysis.ISpoofaxAnalysisService;
 import org.metaborg.spoofax.core.processing.analyze.ISpoofaxAnalysisResultRequester;
@@ -24,6 +27,7 @@ import org.metaborg.spoofax.core.unit.ISpoofaxInputUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxUnitService;
 import org.metaborg.spoofax.eclipse.job.ThreadKillerJob;
+import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.eclipse.util.StatusUtils;
 import org.metaborg.util.concurrent.IClosableLock;
 import org.metaborg.util.log.ILogger;
@@ -113,7 +117,7 @@ public class TransformJob extends Job {
             loopMonitor.setTaskName("Transforming " + source);
             try {
                 final ISpoofaxInputUnit input = unitService.inputUnit(source, transformResource.text, langImpl, null);
-                transform(input, transformResource.project, loopMonitor.split(1));
+                transform(input, transformResource.project, transformResource.selection, loopMonitor.split(1));
             } catch(ContextException | TransformException e) {
                 final String message = logger.format("Transformation failed for {}", source);
                 logger.error(message, e);
@@ -124,11 +128,12 @@ public class TransformJob extends Job {
         return StatusUtils.success();
     }
 
-    private void transform(ISpoofaxInputUnit input, IProject project, SubMonitor monitor)
-        throws ContextException, TransformException {
+    private void transform(ISpoofaxInputUnit input, IProject project, @Nullable ISourceRegion selection,
+        SubMonitor monitor) throws ContextException, TransformException {
         final FileObject source = input.source();
         final IContext context = contextService.get(source, project, langImpl);
-        if(transformService.requiresAnalysis(context, goal) && analysisService.available(langImpl)) {
+        final ITransformConfig config = new TransformConfig(selection);
+        if(transformService.requiresAnalysis(langImpl, goal) && analysisService.available(langImpl)) {
             monitor.setWorkRemaining(3);
             monitor.setTaskName("Waiting for analysis result");
             final ISpoofaxAnalyzeUnit result = analysisResultRequester.request(input, context).toBlocking().single();
@@ -137,7 +142,7 @@ public class TransformJob extends Job {
             try(IClosableLock lock = context.read()) {
                 monitor.worked(1);
                 monitor.setTaskName("Transforming " + source);
-                transformService.transform(result, context, goal);
+                transformService.transform(result, context, goal, config);
                 monitor.worked(1);
             }
         } else {
@@ -146,7 +151,7 @@ public class TransformJob extends Job {
             final ISpoofaxParseUnit result = parseResultRequester.request(input).toBlocking().single();
             monitor.worked(1);
             monitor.setTaskName("Transforming " + source);
-            transformService.transform(result, context, goal);
+            transformService.transform(result, context, goal, config);
             monitor.worked(1);
         }
     }

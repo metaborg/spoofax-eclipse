@@ -142,21 +142,10 @@
 
   <!-- Main menu -->
   <extension point="org.eclipse.ui.menus">
-    <menuContribution locationURI="menu:org.eclipse.ui.main.menu">
-      <menu label="Spoofax (meta)" id="org.metaborg.spoofax.eclipse.meta.menu.main">
-        <separator name="org.metaborg.spoofax.eclipse.meta.separator.additions" visible="false" />
+    <menuContribution locationURI="menu:org.metaborg.spoofax.eclipse.meta.menu.main?before=org.metaborg.spoofax.eclipse.meta.separator.end">
+      <separator name="org.metaborg.spoofax.eclipse.meta.separator.private1" visible="true" />
 
-        <command commandId="org.metaborg.spoofax.eclipse.command.disable.build" style="toggle" />
-        <command commandId="org.metaborg.spoofax.eclipse.command.disable.incrementalbuild" style="toggle" />
-        <command commandId="org.metaborg.spoofax.eclipse.command.disable.editoranalysis" style="toggle" />
-        <command commandId="org.metaborg.spoofax.eclipse.command.delay.editoranalysis" style="toggle" />
-
-        <separator name="org.metaborg.spoofax.eclipse.meta.separator.private1" visible="true" />
-
-        <command commandId="org.metaborg.spoofax.eclipse.meta.command.issue.report" />
-        
-        <separator name="org.metaborg.spoofax.eclipse.meta.separator.end" visible="false" />
-      </menu>
+      <command commandId="org.metaborg.spoofax.eclipse.meta.command.issue.report" />
     </menuContribution>
   </extension>
   

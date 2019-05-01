@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class CommonBuilders {
     public static final String javaBuilderId = "org.eclipse.jdt.core.javabuilder";
     public static final String mavenBuilderId = "org.eclipse.m2e.core.maven2Builder";
+    public static final String gradleBuilderId = "org.eclipse.buildship.core.gradleprojectbuilder";
 
 
     public static void appendJavaBuilder(IProject project, @Nullable IProgressMonitor monitor, int... triggers)
