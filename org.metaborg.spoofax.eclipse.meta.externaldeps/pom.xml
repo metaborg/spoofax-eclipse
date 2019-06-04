@@ -23,6 +23,23 @@
       <groupId>com.github.spullara.mustache.java</groupId>
       <artifactId>compiler</artifactId>
     </dependency>
+    <!-- Pie and dependencies -->
+    <dependency>
+      <groupId>org.metaborg</groupId>
+      <artifactId>pie.runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.metaborg</groupId>
+      <artifactId>pie.taskdefs.guice</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.metaborg</groupId>
+      <artifactId>pie.api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.metaborg</groupId>
+      <artifactId>resource</artifactId>
+    </dependency>
     <!-- Pluto and dependencies -->
     <dependency>
       <groupId>build.pluto</groupId>
@@ -97,6 +114,10 @@
             <!-- Embed dependencies into plugin bundle, so they are exportable. -->
             <Embed-Dependency>
               compiler,
+              pie.runtime,
+              pie.taskdefs.guice,
+              pie.api,
+              resource,
               pluto,
               build-java,
               common,
@@ -113,6 +134,10 @@
             <!-- Export dependency packages -->
             <Export-Package>
               com.github.mustachejava.*;provider=metaborg;mandatory:=provider;version="0",
+              mb.pie.api.*;version="0",
+              mb.pie.runtime.*;version="0",
+              mb.pie.taskdefs.guice.*;version="0",
+              mb.resource.*;version="0",
               build.pluto.*;provider=metaborg;mandatory:=provider;version="0",
               org.sugarj.common.*;provider=metaborg;mandatory:=provider;version="0",
               com.cedarsoftware.util;provider=metaborg;mandatory:=provider;version="0",
