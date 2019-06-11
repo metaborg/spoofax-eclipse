@@ -107,6 +107,10 @@ public class BuildRunnable<P extends IParseUnit, A extends IAnalyzeUnit, AU exte
 
             for(IMessage message : result.messages()) {
                 final FileObject resource = message.source();
+                if(resource == null) {
+                    logger.debug("Cannot create marker for null resource");
+                    continue;
+                }
                 if(output.removedResources().contains(resource.getName())) {
                     // Analysis results contain removed resources, don't create markers for removed
                     // resources.
