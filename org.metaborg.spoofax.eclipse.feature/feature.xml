@@ -134,11 +134,6 @@
     unpack="false"
   />
   <plugin
-    id="characterclasses"
-    version="2.6.0.qualifier"
-    unpack="false"
-  />
-  <plugin
     id="tableinterfaces"
     version="2.6.0.qualifier"
     unpack="false"

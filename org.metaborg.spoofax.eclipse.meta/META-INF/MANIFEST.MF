@@ -37,7 +37,6 @@ Require-Bundle: org.eclipse.ui,
  sdf2table,
  sdf2parenthesize,
  tableinterfaces,
- characterclasses
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: metaborg.org
@@ -56,4 +55,3 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  sdf2table,
  sdf2parenthesize,
  tableinterfaces,
- characterclasses
