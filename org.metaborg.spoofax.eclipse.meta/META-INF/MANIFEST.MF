@@ -36,8 +36,7 @@ Require-Bundle: org.eclipse.ui,
  flowspec.runtime,
  sdf2table,
  sdf2parenthesize,
- tableinterfaces,
- characterclasses
+ org.metaborg.parsetable
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: metaborg.org
@@ -55,5 +54,4 @@ Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  flowspec.runtime,
  sdf2table,
  sdf2parenthesize,
- tableinterfaces,
- characterclasses
+ org.metaborg.parsetable

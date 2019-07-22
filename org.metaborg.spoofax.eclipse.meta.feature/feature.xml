@@ -52,12 +52,7 @@
     unpack="false"
   />
   <plugin
-    id="characterclasses"
-    version="2.6.0.qualifier"
-    unpack="false"
-  />
-  <plugin
-    id="tableinterfaces"
+    id="org.metaborg.parsetable"
     version="2.6.0.qualifier"
     unpack="false"
   />
