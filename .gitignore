@@ -1,0 +1,20 @@
+# Java
+*.class
+*.jar
+hs_err_pid*
+
+# IntelliJ
+**/.idea
+*.iml
+**/out
+
+# Eclipse
+**/.project
+**/.settings
+**/.classpath
+**/.factorypath
+**/bin
+
+# Spoofax
+**/src-gen
+**/target
