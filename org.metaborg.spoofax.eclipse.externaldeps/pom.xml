@@ -121,6 +121,10 @@
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+    </dependency>
     <!-- Reactive Extensions -->
     <dependency>
       <groupId>com.netflix.rxjava</groupId>
@@ -170,6 +174,7 @@
               commons-io,
               commons-lang3,
               commons-logging,
+              commons-math3,
               commons-vfs2,
               capsule,
               guava,
@@ -204,6 +209,7 @@
               org.apache.commons.configuration2.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.io.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.lang3.*;provider=metaborg;mandatory:=provider;version=0,
+              org.apache.commons.math3.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.logging.*;provider=metaborg;mandatory:=provider;version=0,
               io.usethesource.capsule.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.vfs2.*;provider=metaborg;mandatory:=provider;version=0,
