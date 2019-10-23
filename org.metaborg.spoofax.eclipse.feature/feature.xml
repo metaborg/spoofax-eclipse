@@ -75,11 +75,6 @@
     unpack="false"
   />
   <plugin
-    id="statix.generator"
-    version="2.6.0.qualifier"
-    unpack="false"
-  />
-  <plugin
     id="flowspec.runtime"
     version="2.6.0.qualifier"
     unpack="false"
