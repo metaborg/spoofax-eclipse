@@ -78,7 +78,7 @@ public class UpgradeLangSpecWizard extends Wizard {
             if(files != null && files.length > 0) {
                 final FileObject esvFile = files[0];
                 final TermReader reader =
-                    new TermReader(termFactoryService.getGeneric().getFactoryWithStorageType(IStrategoTerm.MUTABLE));
+                    new TermReader(termFactoryService.getGeneric());
                 final IStrategoTerm term = reader.parseFromStream(esvFile.getContent().getInputStream());
                 if(term.getTermType() != IStrategoTerm.APPL) {
                     throw new IllegalStateException("Packed ESV file does not contain a valid ESV term.");
