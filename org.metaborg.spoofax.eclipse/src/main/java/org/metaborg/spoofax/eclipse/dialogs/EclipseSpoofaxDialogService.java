@@ -20,10 +20,14 @@ public final class EclipseSpoofaxDialogService implements ISpoofaxDialogService 
     	int dialogKind = toMessageDialog(kind);
     	String[] buttonLabels = getButtonLabels(options);
     	int defaultOptionIndex = defaultOption >= 0 && defaultOption < buttonLabels.length ? defaultOption : 0;
-        Shell shell = new Shell(Display.getDefault());
-        MessageDialog dialog = new MessageDialog(shell, caption, null, message, dialogKind, buttonLabels, defaultOptionIndex);
-        int result = dialog.open();
-        return result >= 0 && result < options.size() ? options.get(result) : null;
+        Display display = Display.getDefault();
+        final int[] result = new int[1];
+        display.syncExec(() -> {
+            Shell shell = new Shell(display);
+            MessageDialog dialog = new MessageDialog(shell, caption, null, message, dialogKind, buttonLabels, defaultOptionIndex);
+            result[0] = dialog.open();
+        });
+        return result[0] >= 0 && result[0] < options.size() ? options.get(result[0]) : null;
     }
 
     /**
