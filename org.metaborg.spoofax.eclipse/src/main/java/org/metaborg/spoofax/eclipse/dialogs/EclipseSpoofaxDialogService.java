@@ -4,8 +4,13 @@ import org.metaborg.spoofax.core.dialogs.ISpoofaxDialogService;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -23,15 +28,37 @@ public final class EclipseSpoofaxDialogService implements ISpoofaxDialogService 
     	int dialogKind = toMessageDialog(kind);
     	String[] buttonLabels = getButtonLabels(options);
     	int defaultOptionIndex = defaultOption >= 0 && defaultOption < buttonLabels.length ? defaultOption : 0;
-        final int[] result = new int[1];
+        AtomicInteger result = new AtomicInteger();
         Display.getDefault().syncExec(() -> {
             Shell shell = getShell(Display.getDefault());
             MessageDialog dialog = new MessageDialog(shell, caption, null, message, dialogKind, buttonLabels, defaultOptionIndex);
-            result[0] = dialog.open();
+            result.set(dialog.open());
         });
-        return result[0] >= 0 && result[0] < options.size() ? options.get(result[0]) : null;
+        return result.get() >= 0 && result.get() < options.size() ? options.get(result.get()) : null;
     }
 
+    @Override
+    public String showInputDialog(String message, String caption, String initialValue, Function<String, String> validator) {
+        AtomicReference<String> result = new AtomicReference<String>();
+        Display.getDefault().syncExec(() -> {
+            Shell shell = getShell(Display.getDefault());
+            InputDialog dialog = new InputDialog(shell, caption, message, initialValue, v -> validator != null ? validator.apply(v) : null);
+            int code = dialog.open();
+            if (code == Window.OK) {
+                result.set(dialog.getValue());
+            } else {
+                result.set(null);
+            }
+        });
+        return result.get();
+    }
+
+    /**
+     * Gets a shell, the active workbench shell if possible.
+     *
+     * @param display the display
+     * @return the shell
+     */
     private static Shell getShell(Display display) {
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         Shell shell = window != null ? window.getShell() : null;
