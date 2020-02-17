@@ -8,6 +8,9 @@ import java.util.Objects;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -20,14 +23,19 @@ public final class EclipseSpoofaxDialogService implements ISpoofaxDialogService 
     	int dialogKind = toMessageDialog(kind);
     	String[] buttonLabels = getButtonLabels(options);
     	int defaultOptionIndex = defaultOption >= 0 && defaultOption < buttonLabels.length ? defaultOption : 0;
-        Display display = Display.getDefault();
         final int[] result = new int[1];
-        display.syncExec(() -> {
-            Shell shell = new Shell(display);
+        Display.getDefault().syncExec(() -> {
+            Shell shell = getShell(Display.getDefault());
             MessageDialog dialog = new MessageDialog(shell, caption, null, message, dialogKind, buttonLabels, defaultOptionIndex);
             result[0] = dialog.open();
         });
         return result[0] >= 0 && result[0] < options.size() ? options.get(result[0]) : null;
+    }
+
+    private static Shell getShell(Display display) {
+        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        Shell shell = window != null ? window.getShell() : null;
+        return shell != null ? shell : new Shell(display);
     }
 
     /**
