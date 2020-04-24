@@ -8,11 +8,13 @@ import org.metaborg.core.processing.IProcessor;
 import org.metaborg.core.project.IProjectService;
 import org.metaborg.core.resource.IResourceService;
 import org.metaborg.spoofax.core.SpoofaxModule;
+import org.metaborg.spoofax.core.dialogs.ISpoofaxDialogService;
 import org.metaborg.spoofax.core.processing.ISpoofaxProcessor;
 import org.metaborg.spoofax.core.unit.ISpoofaxAnalyzeUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxAnalyzeUnitUpdate;
 import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxTransformUnit;
+import org.metaborg.spoofax.eclipse.dialogs.EclipseSpoofaxDialogService;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditorRegistry;
 import org.metaborg.spoofax.eclipse.editor.IEclipseEditorRegistryInternal;
 import org.metaborg.spoofax.eclipse.editor.SpoofaxEditorRegistry;
@@ -102,4 +104,10 @@ public class SpoofaxEclipseModule extends SpoofaxModule {
         bind(IEclipseEditorRegistry.class).to(SpoofaxEditorRegistry.class);
         bind(IEclipseEditorRegistryInternal.class).to(SpoofaxEditorRegistry.class);
     }
+
+    @Override
+    protected void bindDialog() {
+        bind(ISpoofaxDialogService.class).to(EclipseSpoofaxDialogService.class).in(Singleton.class);
+    }
+
 }
