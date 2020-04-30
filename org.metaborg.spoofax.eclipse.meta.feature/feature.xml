@@ -149,6 +149,11 @@
     unpack="true"
   />
   <plugin
+    id="sdf3.ext.statix.eclipse"
+    version="2.6.0.qualifier"
+    unpack="true"
+  />
+  <plugin
     id="org.metaborg.meta.lang.ts.eclipse"
     version="2.6.0.qualifier"
     unpack="true"
