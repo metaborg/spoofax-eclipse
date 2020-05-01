@@ -24,13 +24,11 @@ import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import rx.Observable;
-import rx.Observable.OnSubscribe;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.schedulers.Schedulers;
-
 import com.google.common.collect.Iterables;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SpoofaxContentAssistProcessor<I extends IInputUnit, P extends IParseUnit> implements
     IContentAssistProcessor {
@@ -45,7 +43,7 @@ public class SpoofaxContentAssistProcessor<I extends IInputUnit, P extends IPars
     private final ILanguageImpl language;
     private final IInformationControlCreator informationControlCreator;
 
-    private Subscription parseResultSubscription;
+    private Disposable parseResultSubscription;
     private volatile ICompletionProposal[] cachedProposals;
 
 
@@ -70,42 +68,40 @@ public class SpoofaxContentAssistProcessor<I extends IInputUnit, P extends IPars
         }
 
         if(parseResultSubscription != null) {
-            parseResultSubscription.unsubscribe();
+            parseResultSubscription.dispose();
         }
 
         final I input = unitService.inputUnit(resource, document.get(), language, null);
 
 
-        parseResultSubscription = Observable.create(new OnSubscribe<Void>() {
-            @Override public void call(final Subscriber<? super Void> subscriber) {
-                if(subscriber.isUnsubscribed()) {
-                    return;
-                }
-                // TODO: support dialects
-
-                final ISpoofaxParseUnit parseResult =
-                    (ISpoofaxParseUnit) parseResultRequester.request(input).toBlocking().first();
-
-                if(subscriber.isUnsubscribed()) {
-                    return;
-                }
-                cachedProposals = proposals(parseResult, viewer, offset);
-
-
-                if(cachedProposals == null) {
-                    return;
-                }
-
-                Display.getDefault().syncExec(new Runnable() {
-                    @Override public void run() {
-                        if(subscriber.isUnsubscribed()) {
-                            return;
-                        }
-                        final ITextOperationTarget target = (ITextOperationTarget) viewer;
-                        target.doOperation(ISourceViewer.CONTENTASSIST_PROPOSALS);
-                    }
-                });
+        parseResultSubscription = Observable.create(subscriber -> {
+            if(subscriber.isDisposed()) {
+                return;
             }
+            // TODO: support dialects
+
+            final ISpoofaxParseUnit parseResult =
+                (ISpoofaxParseUnit) parseResultRequester.request(input).blockingFirst();
+
+            if(subscriber.isDisposed()) {
+                return;
+            }
+            cachedProposals = proposals(parseResult, viewer, offset);
+
+
+            if(cachedProposals == null) {
+                return;
+            }
+
+            Display.getDefault().syncExec(new Runnable() {
+                @Override public void run() {
+                    if(subscriber.isDisposed()) {
+                        return;
+                    }
+                    final ITextOperationTarget target = (ITextOperationTarget) viewer;
+                    target.doOperation(ISourceViewer.CONTENTASSIST_PROPOSALS);
+                }
+            });
         }).observeOn(Schedulers.computation()).subscribeOn(Schedulers.computation()).subscribe();
 
         return null;
