@@ -160,7 +160,7 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <!-- Set to 3.5.0 because a library has a Java 9 module-info.java file, which the managed version of this plugin
-          does not support. -->
+          does not support. (see: https://issues.apache.org/jira/browse/FELIX-5698) -->
         <version>3.5.0</version>
         <configuration>
           <unpackBundle>true</unpackBundle>
@@ -254,7 +254,7 @@
             <!-- Don't use version of this package if no version can be determined. -->
             <_nodefaultversion>true</_nodefaultversion>
             <!-- Disable generation of Require-Capability: osgi.ee, as a library includes a module-info.java file,
-              but does not really require Java 9. -->
+              but does not really require Java 9. (see: https://issues.liferay.com/browse/LPS-98289) -->
             <_noee>true</_noee>
             <!-- Allow buddy class loading, so that other bundles can merge their classpath with this bundle, which some
               libraries require. -->
