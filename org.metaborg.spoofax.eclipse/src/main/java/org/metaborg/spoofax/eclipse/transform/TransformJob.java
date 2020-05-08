@@ -136,7 +136,7 @@ public class TransformJob extends Job {
         if(transformService.requiresAnalysis(langImpl, goal) && analysisService.available(langImpl)) {
             monitor.setWorkRemaining(3);
             monitor.setTaskName("Waiting for analysis result");
-            final ISpoofaxAnalyzeUnit result = analysisResultRequester.request(input, context).toBlocking().single();
+            final ISpoofaxAnalyzeUnit result = analysisResultRequester.request(input, context).blockingSingle();
             monitor.worked(1);
             monitor.setTaskName("Waiting for context read lock");
             try(IClosableLock lock = context.read()) {
@@ -148,7 +148,7 @@ public class TransformJob extends Job {
         } else {
             monitor.setWorkRemaining(2);
             monitor.setTaskName("Waiting for parse result");
-            final ISpoofaxParseUnit result = parseResultRequester.request(input).toBlocking().single();
+            final ISpoofaxParseUnit result = parseResultRequester.request(input).blockingSingle();
             monitor.worked(1);
             monitor.setTaskName("Transforming " + source);
             transformService.transform(result, context, goal, config);

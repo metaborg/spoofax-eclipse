@@ -1,7 +1,6 @@
 package org.metaborg.spoofax.eclipse.resource;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -26,8 +25,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.metaborg.util.stream.OnCloseByteArrayOutputStream;
 import org.spoofax.terms.util.NotImplementedException;
-
-import rx.functions.Action1;
 
 public class EclipseResourceFileObject extends AbstractFileObject<EclipseResourceFileSystem> {
     private final AbstractFileName name;
@@ -215,17 +212,15 @@ public class EclipseResourceFileObject extends AbstractFileObject<EclipseResourc
             file = (IFile) resource;
         }
 
-        return new OnCloseByteArrayOutputStream(new Action1<ByteArrayOutputStream>() {
-            @Override public void call(ByteArrayOutputStream out) {
-                try {
-                    if(!file.exists()) {
-                        file.create(new ByteArrayInputStream(out.toByteArray()), true, null);
-                    } else {
-                        file.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, null);
-                    }
-                } catch(CoreException e) {
-                    throw new RuntimeException("Could not set file contents for file " + name, e);
+        return new OnCloseByteArrayOutputStream(out -> {
+            try {
+                if(!file.exists()) {
+                    file.create(new ByteArrayInputStream(out.toByteArray()), true, null);
+                } else {
+                    file.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, null);
                 }
+            } catch(CoreException e) {
+                throw new RuntimeException("Could not set file contents for file " + name, e);
             }
         });
     }
