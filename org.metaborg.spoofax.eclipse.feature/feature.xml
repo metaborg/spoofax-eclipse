@@ -55,11 +55,6 @@
     unpack="false"
   />
   <plugin
-    id="org.spoofax.terms.typesmart"
-    version="2.6.0.qualifier"
-    unpack="false"
-  />
-  <plugin
     id="nabl2.terms"
     version="2.6.0.qualifier"
     unpack="false"
