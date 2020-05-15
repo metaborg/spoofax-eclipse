@@ -231,6 +231,7 @@
       id="org.metaborg.spoofax.eclipse.meta.newwizard.generateproject"
       name="Spoofax language project"
       category="org.metaborg.spoofax.eclipse.meta.newwizard.category"
+      icon="./icons/spoofax.png"
       project="true"
       hasPages="true"
       class="org.metaborg.spoofax.eclipse.meta.wizard.CreateLangSpecWizard"
