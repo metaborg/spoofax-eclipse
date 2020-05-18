@@ -23,7 +23,6 @@ import org.metaborg.meta.core.config.ILanguageSpecConfig;
 import org.metaborg.meta.core.project.ILanguageSpec;
 import org.metaborg.meta.core.project.ILanguageSpecService;
 import org.metaborg.spoofax.core.esv.ESVReader;
-import org.metaborg.spoofax.core.terms.ITermFactoryService;
 import org.metaborg.spoofax.eclipse.meta.nature.SpoofaxMetaNature;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.BuilderUtils;
@@ -44,6 +43,7 @@ import org.metaborg.util.log.LoggerUtils;
 import org.metaborg.util.resource.ContainsFileSelector;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
+import org.spoofax.interpreter.terms.ITermFactory;
 import org.spoofax.terms.ParseError;
 import org.spoofax.terms.io.binary.TermReader;
 
@@ -62,7 +62,7 @@ public class UpgradeLangSpecWizard extends Wizard {
 
     public UpgradeLangSpecWizard(IEclipseResourceService resourceService, IProjectService projectService,
         ILanguageSpecService languageSpecService, ISpoofaxLanguageSpecConfigBuilder configBuilder,
-        ITermFactoryService termFactoryService, IProject eclipseProject) {
+        ITermFactory termFactory, IProject eclipseProject) {
         this.configBuilder = configBuilder;
         this.eclipseProject = eclipseProject;
         this.projectLocation = resourceService.resolve(eclipseProject);
@@ -78,7 +78,7 @@ public class UpgradeLangSpecWizard extends Wizard {
             if(files != null && files.length > 0) {
                 final FileObject esvFile = files[0];
                 final TermReader reader =
-                    new TermReader(termFactoryService.getGeneric());
+                    new TermReader(termFactory);
                 final IStrategoTerm term = reader.parseFromStream(esvFile.getContent().getInputStream());
                 if(term.getTermType() != IStrategoTerm.APPL) {
                     throw new IllegalStateException("Packed ESV file does not contain a valid ESV term.");
