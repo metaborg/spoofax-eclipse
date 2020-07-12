@@ -1,11 +1,16 @@
 <configuration>
+  <variable scope="context" name="contextid" value=" %-15.15X{contextid:-} |"/>
+
   <appender
     name="stdout"
     class="ch.qos.logback.core.ConsoleAppender"
   >
     <target>System.out</target>
     <encoder>
+      <!--
       <pattern>%date{HH:mm:ss.SSS} | %-12.12thread | %-5level | %-40.40logger{30} - %message%n</pattern>
+      -->
+      <pattern>%date{HH:mm:ss.SSS} | %-12.12thread | %-5level |${contextid} %-40.40logger{30} - %message%n</pattern>
     </encoder>
   </appender>
 
@@ -29,7 +34,10 @@
       <level>INFO</level>
     </filter>
     <encoder>
+      <!--
       <pattern>%date{HH:mm} | %-5level | %-30.30logger{20} - %message%n</pattern>
+      -->
+      <pattern>%date{HH:mm} | %-5level |${contextid} %-30.30logger{20} - %message%n</pattern>
     </encoder>
     <consoleName>Spoofax console</consoleName>
   </appender>
@@ -49,4 +57,8 @@
   <logger
     name="org.apache.commons.vfs2"
     level="warn" />
+  <logger
+    name="mb.statix.concurrent"
+    level="debug" />
+
 </configuration>
