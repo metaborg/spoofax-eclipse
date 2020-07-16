@@ -255,7 +255,6 @@
             <Import-Package>
               !com.sun.*,
               !sun.*,
-              !javax.*,
               !groovy.*,
               !com.google.*,
               !org.apache.*,
@@ -266,6 +265,8 @@
               !com.jcraft.jsch.*,
               !org.springframework.*,
               !org.checkerframework.*,
+              javax.inject,
+              !javax.*,
               org.spoofax.*,
               org.metaborg.*,
               org.strategoxt.*,
