@@ -51,9 +51,12 @@
   <logger
     name="org.apache.commons.vfs2"
     level="warn" />
+  <logger
+    name="mb.statix"
+    level="info" />
 
   <!-- Statix concurrent logging -->
-
+  <!-- 
   <appender
     name="statix-concurrent-file"
     class="ch.qos.logback.core.FileAppender"
@@ -71,5 +74,6 @@
   >
     <appender-ref ref="statix-concurrent-file" />
   </logger>
+  -->
 
 </configuration>
