@@ -145,6 +145,23 @@
       <groupId>org.graalvm</groupId>
       <artifactId>graal-sdk</artifactId>
     </dependency>
+    <!-- Viatra -->
+    <dependency>
+      <groupId>org.eclipse.viatra</groupId>
+      <artifactId>org.eclipse.viatra.query.runtime.matchers</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.viatra</groupId>
+      <artifactId>org.eclipse.viatra.query.runtime.base.itc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.collections</groupId>
+      <artifactId>eclipse-collections-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.collections</groupId>
+      <artifactId>eclipse-collections</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -199,7 +216,11 @@
               slf4j-api,
               strategoxt-min-jar,
               truffle-api,
-              graal-sdk
+              graal-sdk,
+              org.eclipse.viatra.query.runtime.matchers,
+              org.eclipse.viatra.query.runtime.base.itc,
+              eclipse-collections-api,
+              eclipse-collections
             </Embed-Dependency>
             <!-- Export dependency packages -->
             <Export-Package>
@@ -225,7 +246,9 @@
               io.reactivex.rxjava3.*;provider=metaborg;mandatory:=provider;version=0,
               org.reactivestreams.*;provider=metaborg;mandatory:=provider;version=0,
               com.oracle.truffle.*;provider=metaborg;mandatory:=provider;version=0,
-              org.graalvm.*;provider=metaborg;mandatory:=provider;version=0
+              org.graalvm.*;provider=metaborg;mandatory:=provider;version=0,
+              org.eclipse.viatra.query.runtime.*;provider=metaborg;mandatory:=provider;version=0,
+              org.eclipse.collections.*;provider=metaborg;mandatory:=provider;version=0
             </Export-Package>
             <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that we do not
               need. -->
