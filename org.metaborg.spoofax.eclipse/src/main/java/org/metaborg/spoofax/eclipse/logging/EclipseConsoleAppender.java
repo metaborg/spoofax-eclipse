@@ -27,7 +27,8 @@ public class EclipseConsoleAppender extends AppenderBase<ILoggingEvent> {
         console = ConsoleUtils.get(consoleName != null ? consoleName : name);
         stream = console.newMessageStream();
         try {
-            encoder.init(stream);
+            final byte[] header = encoder.headerBytes();
+            stream.write(header);
         } catch(IOException e) {
             addError("Could not initialize encoder", e);
             return;
@@ -38,7 +39,8 @@ public class EclipseConsoleAppender extends AppenderBase<ILoggingEvent> {
 
     @Override protected void append(ILoggingEvent event) {
         try {
-            encoder.doEncode(event);
+            final byte[] eventBytes = encoder.encode(event);
+            stream.write(eventBytes);
         } catch(IOException e) {
             addError("Could not encode log message", e);
         }
