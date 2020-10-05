@@ -145,23 +145,6 @@
       <groupId>org.graalvm</groupId>
       <artifactId>graal-sdk</artifactId>
     </dependency>
-    <!-- Viatra -->
-    <dependency>
-      <groupId>org.eclipse.viatra</groupId>
-      <artifactId>org.eclipse.viatra.query.runtime.matchers</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.viatra</groupId>
-      <artifactId>org.eclipse.viatra.query.runtime.base.itc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.collections</groupId>
-      <artifactId>eclipse-collections-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.collections</groupId>
-      <artifactId>eclipse-collections</artifactId>
-    </dependency>
   </dependencies>
 
   <build>
