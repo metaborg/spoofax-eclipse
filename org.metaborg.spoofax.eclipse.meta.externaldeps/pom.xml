@@ -171,6 +171,7 @@
               org.spoofax*,
               org.metaborg*,
               org.strategoxt.*,
+              mb.*,
               org.apache.tools.ant,
               org.eclipse.jdt.core.compiler.*,
               *;provider=metaborg;mandatory:=provider;version=0

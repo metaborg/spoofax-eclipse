@@ -253,6 +253,7 @@
               org.spoofax.*,
               org.metaborg.*,
               org.strategoxt.*,
+              mb.*,
               org.apache.tools.ant,
               *;provider=metaborg;mandatory:=provider;version=0
             </Import-Package>
