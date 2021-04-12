@@ -55,6 +55,16 @@
     unpack="false"
   />
   <plugin
+    id="scopegraph"
+    version="2.6.0.qualifier"
+    unpack="false"
+  />
+  <plugin
+    id="p_raffrayi"
+    version="2.6.0.qualifier"
+    unpack="false"
+  />
+  <plugin
     id="nabl2.terms"
     version="2.6.0.qualifier"
     unpack="false"
