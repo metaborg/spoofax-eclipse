@@ -144,6 +144,11 @@
     unpack="false"
   />
   <plugin
+    id="stratego.lang.eclipse"
+    version="2.6.0.qualifier"
+    unpack="true"
+  />
+  <plugin
     id="org.metaborg.meta.lang.stratego.eclipse"
     version="2.6.0.qualifier"
     unpack="true"
