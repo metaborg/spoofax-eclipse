@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Spoofax Eclipse runtime
 Bundle-SymbolicName: org.metaborg.spoofax.eclipse;singleton:=true
-Bundle-Version: 2.5.14
+Bundle-Version: 2.6.0.qualifier
 Bundle-Activator: org.metaborg.spoofax.eclipse.SpoofaxPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,
@@ -23,6 +23,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.core,
  org.eclipse.ui.views,
+ scopegraph,
+ p_raffrayi,
  nabl2.terms,
  nabl2.solver,
  statix.solver,
@@ -41,6 +43,8 @@ Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: org.metaborg.spoofax.eclipse.externaldeps,
  org.metaborg.util,
  org.metaborg.spoofax.core,
+ scopegraph,
+ p_raffrayi,
  nabl2.terms,
  nabl2.solver,
  statix.solver,
