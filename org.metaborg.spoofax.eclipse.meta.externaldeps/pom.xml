@@ -38,6 +38,10 @@
     </dependency>
     <dependency>
       <groupId>org.metaborg</groupId>
+      <artifactId>pie.task.archive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.metaborg</groupId>
       <artifactId>resource</artifactId>
     </dependency>
     <dependency>
@@ -121,6 +125,7 @@
               pie.runtime,
               pie.taskdefs.guice,
               pie.api,
+              pie.task.archive,
               resource,
               log.api,
               pluto,
@@ -142,6 +147,7 @@
               mb.pie.api.*;version="0",
               mb.pie.runtime.*;version="0",
               mb.pie.taskdefs.guice.*;version="0",
+              mb.pie.task.archive.*;version="0",
               mb.resource.*;version="0",
               mb.log.api.*;version="0",
               build.pluto.*;provider=metaborg;mandatory:=provider;version="0",
