@@ -18,6 +18,7 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.metaborg.core.language.LanguageIdentifier;
 import org.metaborg.meta.core.wizard.CreateLanguageSpecWizard;
 import org.metaborg.spoofax.meta.core.generator.general.AnalysisType;
+import org.metaborg.spoofax.meta.core.generator.general.TransformationType;
 import org.metaborg.spoofax.meta.core.generator.general.SyntaxType;
 import org.metaborg.spoofax.meta.core.wizard.CreateSpoofaxLanguageSpecWizard;
 import org.metaborg.util.log.ILogger;
@@ -36,6 +37,8 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
     private Combo syntaxTypeInput;
     private boolean analysisTypeModified = false;
     private Combo analysisTypeInput;
+    private boolean transformationTypeModified = false;
+    private Combo transformationTypeInput;
 
     private Button generateExampleProjectInput;
     private Button generateTestProjectInput;
@@ -74,6 +77,10 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
 
     public AnalysisType analysisType() {
         return createLanguageSpecWizard.analysisType();
+    }
+
+    public TransformationType transformationType() {
+        return createLanguageSpecWizard.transformationType();
     }
 
 
@@ -171,6 +178,22 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
                     return;
                 }
                 analysisTypeModified = true;
+            }
+        });
+
+        // Transformation type
+        new Label(optionsContainer, SWT.NONE).setText("&Transformation type:");
+        transformationTypeInput = new Combo(optionsContainer, SWT.DROP_DOWN | SWT.BORDER | SWT.SINGLE);
+        transformationTypeInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        for(String analysisType : TransformationType.mapping().keySet()) {
+            transformationTypeInput.add(analysisType);
+        }
+        transformationTypeInput.addModifyListener(new ModifyListener() {
+            @Override public void modifyText(ModifyEvent e) {
+                if(ignoreEvents) {
+                    return;
+                }
+                transformationTypeModified = true;
             }
         });
 
@@ -306,6 +329,18 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
 
             @Override protected void setAnalysisType(String analysisTypeString) {
                 analysisTypeInput.setText(analysisTypeString);
+            }
+
+            @Override protected boolean inputTransformationTypeModified() {
+                return transformationTypeModified;
+            }
+
+            @Override protected String inputTransformationTypeString() {
+                return transformationTypeInput.getText();
+            }
+
+            @Override protected void setTransformationType(String transformationTypeString) {
+                transformationTypeInput.setText(transformationTypeString);
             }
 
 

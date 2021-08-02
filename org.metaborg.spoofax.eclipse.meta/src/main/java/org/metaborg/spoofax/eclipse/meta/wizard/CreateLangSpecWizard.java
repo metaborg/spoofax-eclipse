@@ -22,6 +22,7 @@ import org.metaborg.spoofax.eclipse.meta.SpoofaxMetaPlugin;
 import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.meta.core.config.ISpoofaxLanguageSpecConfig;
 import org.metaborg.spoofax.meta.core.generator.general.AnalysisType;
+import org.metaborg.spoofax.meta.core.generator.general.TransformationType;
 import org.metaborg.spoofax.meta.core.generator.general.SyntaxType;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpec;
 import org.metaborg.util.log.ILogger;
@@ -65,6 +66,7 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
         final Collection<String> extensions = page.extensions();
         final SyntaxType syntaxType = page.syntaxType();
         final AnalysisType analysisType = page.analysisType();
+        final TransformationType transformationType = page.transformationType();
         final boolean generateExampleProject = page.generateExampleProject();
         final boolean generateTestProject = page.generateTestProject();
         final boolean generateEclipsePluginProject = page.generateEclipsePluginProject();
@@ -74,7 +76,7 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
         final IRunnableWithProgress runnable = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor) throws InvocationTargetException {
                 try {
-                    createAll(monitor, languageId, languageName, extensions, syntaxType, analysisType,
+                    createAll(monitor, languageId, languageName, extensions, syntaxType, analysisType, transformationType,
                         generateExampleProject, generateTestProject, generateEclipsePluginProject,
                         generateEclipseFeatureProject, generateEclipseUpdatesiteProject, basePath);
                 } catch(Throwable e) {
@@ -99,8 +101,9 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
     }
 
     private void createAll(IProgressMonitor rootMonitor, LanguageIdentifier languageId, String languageName,
-        Collection<String> extensions, SyntaxType syntaxType, AnalysisType analysisType, boolean generateExampleProject,
-        boolean generateTestProject, boolean generateEclipsePluginProject, boolean generateEclipseFeatureProject,
+        Collection<String> extensions, SyntaxType syntaxType, AnalysisType analysisType,
+        TransformationType transformationType, boolean generateExampleProject, boolean generateTestProject,
+        boolean generateEclipsePluginProject, boolean generateEclipseFeatureProject,
         boolean generateEclipseUpdatesiteProject, @Nullable IPath basePath)
         throws ProjectException, IOException, CoreException, ConfigException, OperationCanceledException {
         final SubMonitor monitor = SubMonitor.convert(rootMonitor, "Generating language projects",
@@ -109,7 +112,7 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
                 + (generateEclipseUpdatesiteProject ? 1 : 0));
 
         final ISpoofaxLanguageSpec langSpec = projectGenerator.createLangSpecProject(languageId, languageName,
-            extensions, syntaxType, analysisType, basePath, monitor.newChild(100));
+            extensions, syntaxType, analysisType, transformationType, basePath, monitor.newChild(100));
         final ISpoofaxLanguageSpecConfig config = langSpec.config();
         if(generateExampleProject) {
             projectGenerator.createExampleProject(config, null, basePath, analysisType, monitor.newChild(1));
