@@ -45,7 +45,7 @@
       <level>DEBUG</level>
     </filter>
     <encoder>
-      <pattern>%date{HH:mm} | %-5level | ${contextid} %-30.30logger{20} - %message%n</pattern>
+      <pattern>%date{HH:mm} | %-5level | %-30.30logger{20} - %message%n</pattern>
     </encoder>
     <consoleName>Spoofax console</consoleName>
   </appender>
