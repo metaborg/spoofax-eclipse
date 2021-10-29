@@ -48,6 +48,10 @@
       <groupId>org.metaborg</groupId>
       <artifactId>log.api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.metaborg</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
     <!-- Pluto and dependencies -->
     <dependency>
       <groupId>build.pluto</groupId>
@@ -128,9 +132,10 @@
               pie.task.archive,
               resource,
               log.api,
+              common;groupId=org.metaborg,
               pluto,
               build-java,
-              common,
+              common;groupId=org.sugarj,
               java-util-pluto-fixes,
               objenesis,
               xodus-environment,
@@ -150,6 +155,7 @@
               mb.pie.task.archive.*;version="0",
               mb.resource.*;version="0",
               mb.log.api.*;version="0",
+              mb.common.*;version="0",
               build.pluto.*;provider=metaborg;mandatory:=provider;version="0",
               org.sugarj.common.*;provider=metaborg;mandatory:=provider;version="0",
               com.cedarsoftware.util;provider=metaborg;mandatory:=provider;version="0",
