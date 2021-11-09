@@ -185,8 +185,8 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
         new Label(optionsContainer, SWT.NONE).setText("&Transformation type:");
         transformationTypeInput = new Combo(optionsContainer, SWT.DROP_DOWN | SWT.BORDER | SWT.SINGLE);
         transformationTypeInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        for(String analysisType : TransformationType.mapping().keySet()) {
-            transformationTypeInput.add(analysisType);
+        for(String transformationType : TransformationType.mapping().keySet()) {
+            transformationTypeInput.add(transformationType);
         }
         transformationTypeInput.addModifyListener(new ModifyListener() {
             @Override public void modifyText(ModifyEvent e) {
