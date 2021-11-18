@@ -185,6 +185,7 @@
               commons-logging,
               commons-vfs2,
               capsule,
+              failureaccess,
               guava,
               guice,
               guice-assistedinject,
