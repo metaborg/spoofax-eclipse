@@ -35,10 +35,12 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
 
     private boolean syntaxTypeModified = false;
     private Combo syntaxTypeInput;
-    private boolean analysisTypeModified = false;
-    private Combo analysisTypeInput;
     private boolean transformationTypeModified = false;
     private Combo transformationTypeInput;
+    private boolean analysisTypeModified = false;
+    private Combo analysisTypeInput;
+    private Button incrementalInput;
+    private Button directoryBasedGroupingInput;
 
     private Button generateExampleProjectInput;
     private Button generateTestProjectInput;
@@ -165,22 +167,6 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
             }
         });
 
-        // Analysis type
-        new Label(optionsContainer, SWT.NONE).setText("&Analysis type:");
-        analysisTypeInput = new Combo(optionsContainer, SWT.DROP_DOWN | SWT.BORDER | SWT.SINGLE);
-        analysisTypeInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        for(String analysisType : AnalysisType.mapping().keySet()) {
-            analysisTypeInput.add(analysisType);
-        }
-        analysisTypeInput.addModifyListener(new ModifyListener() {
-            @Override public void modifyText(ModifyEvent e) {
-                if(ignoreEvents) {
-                    return;
-                }
-                analysisTypeModified = true;
-            }
-        });
-
         // Transformation type
         new Label(optionsContainer, SWT.NONE).setText("&Transformation type:");
         transformationTypeInput = new Combo(optionsContainer, SWT.DROP_DOWN | SWT.BORDER | SWT.SINGLE);
@@ -197,6 +183,47 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
             }
         });
 
+        // Analysis type and options
+        new Label(optionsContainer, SWT.NONE).setText("&Analysis type:");
+        analysisTypeInput = new Combo(optionsContainer, SWT.DROP_DOWN | SWT.BORDER | SWT.SINGLE);
+        analysisTypeInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        for(String analysisType : AnalysisType.mapping().keySet()) {
+            analysisTypeInput.add(analysisType);
+        }
+        analysisTypeInput.addModifyListener(new ModifyListener() {
+            @Override public void modifyText(ModifyEvent e) {
+                final Combo option = (Combo) e.widget;
+                if(option.getText().equals(AnalysisType.Statix_Concurrent.name)) {
+                    incrementalInput.setEnabled(true);
+                    directoryBasedGroupingInput.setEnabled(true);
+                } else {
+                    incrementalInput.setEnabled(false);
+                    incrementalInput.setSelection(false);
+                    directoryBasedGroupingInput.setEnabled(false);
+                    directoryBasedGroupingInput.setSelection(false);
+                }
+                if(ignoreEvents) {
+                    return;
+                }
+                analysisTypeModified = true;
+            }
+        });
+
+
+        new Label(optionsContainer, SWT.NONE).setText(""); // Empty control to align options under combobox.
+        final Composite analysisOptionsContainer = new Composite(optionsContainer, SWT.NONE);
+        final GridLayout analysisOptionsLayout = new GridLayout(4, false);
+        analysisOptionsContainer.setLayout(analysisOptionsLayout);
+        analysisOptionsContainer.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+        new Label(analysisOptionsContainer, SWT.NONE).setText("&Incremental:");
+        incrementalInput = new Button(analysisOptionsContainer, SWT.CHECK);
+        incrementalInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        incrementalInput.setEnabled(false);
+        new Label(analysisOptionsContainer, SWT.NONE).setText("&Use directories for grouping:");
+        directoryBasedGroupingInput = new Button(analysisOptionsContainer, SWT.CHECK);
+        directoryBasedGroupingInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        directoryBasedGroupingInput.setEnabled(false);
 
         // Add project generation options in a new container
         final Group generationContainer = new Group(container, SWT.NONE);
@@ -319,6 +346,18 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
                 syntaxTypeInput.setText(syntaxTypeString);
             }
 
+            @Override protected boolean inputTransformationTypeModified() {
+                return transformationTypeModified;
+            }
+
+            @Override protected String inputTransformationTypeString() {
+                return transformationTypeInput.getText();
+            }
+
+            @Override protected void setTransformationType(String transformationTypeString) {
+                transformationTypeInput.setText(transformationTypeString);
+            }
+
             @Override protected boolean inputAnalysisTypeModified() {
                 return analysisTypeModified;
             }
@@ -331,16 +370,12 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
                 analysisTypeInput.setText(analysisTypeString);
             }
 
-            @Override protected boolean inputTransformationTypeModified() {
-                return transformationTypeModified;
+            @Override protected boolean incremental() {
+                return incrementalInput.getSelection();
             }
 
-            @Override protected String inputTransformationTypeString() {
-                return transformationTypeInput.getText();
-            }
-
-            @Override protected void setTransformationType(String transformationTypeString) {
-                transformationTypeInput.setText(transformationTypeString);
+            @Override protected boolean directoryBasedGrouping() {
+                return directoryBasedGroupingInput.getSelection();
             }
 
 
@@ -383,6 +418,15 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
             @Override protected void setGenerateEclipseUpdatesiteProject(boolean generate) {
                 generateEclipseUpdatesiteProjectInput.setSelection(generate);
             }
+
+            @Override protected void setIncremental(boolean incremental) {
+                incrementalInput.setSelection(incremental);
+            }
+
+            @Override protected void setDirectoryBasedGrouping(boolean directoryBasedGrouping) {
+                directoryBasedGroupingInput.setSelection(directoryBasedGrouping);
+            }
+
         };
         createLanguageSpecWizard.setDefaults();
 
