@@ -66,8 +66,9 @@ public class ProjectGenerator {
 
 
     public ISpoofaxLanguageSpec createLangSpecProject(LanguageIdentifier languageId, String languageName,
-        Collection<String> extensions, SyntaxType syntaxType, AnalysisType analysisType, TransformationType transformationType,
-        @Nullable IPath basePath, SubMonitor monitor) throws ProjectException, IOException, CoreException, ConfigException {
+        Collection<String> extensions, SyntaxType syntaxType, TransformationType transformationType, AnalysisType analysisType,
+        boolean analysisIncremental, boolean directoryBasedGrouping, @Nullable IPath basePath, SubMonitor monitor)
+                throws ProjectException, IOException, CoreException, ConfigException {
         monitor.setWorkRemaining(20);
 
         monitor.subTask("Generating language specification project");
@@ -88,8 +89,10 @@ public class ProjectGenerator {
             .withName(languageName)
             .withExtensions(extensions)
             .withSyntaxType(syntaxType)
-            .withAnalysisType(analysisType)
             .withTransformationType(transformationType)
+            .withAnalysisType(analysisType)
+            .withAnalysisIncremental(analysisIncremental)
+            .withDirectoryBasedGrouping(directoryBasedGrouping)
             ;
         // @formatter:on
 

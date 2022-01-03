@@ -77,12 +77,20 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
         return createLanguageSpecWizard.syntaxType();
     }
 
+    public TransformationType transformationType() {
+        return createLanguageSpecWizard.transformationType();
+    }
+
     public AnalysisType analysisType() {
         return createLanguageSpecWizard.analysisType();
     }
 
-    public TransformationType transformationType() {
-        return createLanguageSpecWizard.transformationType();
+    public boolean analysisIncremental() {
+        return createLanguageSpecWizard.analysisIncremental();
+    }
+
+    public boolean directoryBasedGrouping() {
+        return createLanguageSpecWizard.directoryBasedGrouping();
     }
 
 
@@ -370,11 +378,11 @@ public class CreateLangSpecWizardPage extends WizardNewProjectCreationPage {
                 analysisTypeInput.setText(analysisTypeString);
             }
 
-            @Override protected boolean incremental() {
+            @Override public boolean analysisIncremental() {
                 return incrementalInput.getSelection();
             }
 
-            @Override protected boolean directoryBasedGrouping() {
+            @Override public boolean directoryBasedGrouping() {
                 return directoryBasedGroupingInput.getSelection();
             }
 
