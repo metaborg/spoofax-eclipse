@@ -119,7 +119,8 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
             basePath, monitor.newChild(100));
         final ISpoofaxLanguageSpecConfig config = langSpec.config();
         if(generateExampleProject) {
-            projectGenerator.createExampleProject(config, null, basePath, analysisType, monitor.newChild(1));
+            projectGenerator.createExampleProject(config, null, basePath, analysisType, analysisIncremental,
+                monitor.newChild(1));
         }
         if(generateTestProject) {
             projectGenerator.createTestProject(config, null, basePath, monitor.newChild(1));
