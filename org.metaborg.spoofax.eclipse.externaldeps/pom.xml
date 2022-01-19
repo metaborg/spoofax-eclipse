@@ -109,13 +109,10 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-    <!-- Required for Guava >= 30.1.1: -->
-    <!--
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
     </dependency>
-    -->
     <!-- Apache Commons -->
     <dependency>
       <groupId>commons-io</groupId>
@@ -188,6 +185,7 @@
               commons-logging,
               commons-vfs2,
               capsule,
+              failureaccess,
               guava,
               guice,
               guice-assistedinject,
