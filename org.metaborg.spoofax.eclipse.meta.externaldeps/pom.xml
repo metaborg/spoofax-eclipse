@@ -38,6 +38,10 @@
     </dependency>
     <dependency>
       <groupId>org.metaborg</groupId>
+      <artifactId>pie.graph</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.metaborg</groupId>
       <artifactId>pie.task.archive</artifactId>
     </dependency>
     <dependency>
@@ -129,6 +133,7 @@
               pie.runtime,
               pie.taskdefs.guice,
               pie.api,
+              pie.graph,
               pie.task.archive,
               resource,
               log.api,
@@ -150,6 +155,7 @@
             <Export-Package>
               com.github.mustachejava.*;provider=metaborg;mandatory:=provider;version="0",
               mb.pie.api.*;version="0",
+              mb.pie.graph.*;version="0",
               mb.pie.runtime.*;version="0",
               mb.pie.taskdefs.guice.*;version="0",
               mb.pie.task.archive.*;version="0",
