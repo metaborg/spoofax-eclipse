@@ -179,6 +179,23 @@ public class EclipseResourceService extends ResourceService implements IEclipseR
         return super.localFile(resolve(localResource), resolve(localDir));
     }
 
+    @Override public File localFileUpdate(FileObject resource, FileObject dir) {
+        if(!(dir instanceof EclipseResourceFileObject) || !(resource instanceof EclipseResourceFileObject)) {
+            return super.localFileUpdate(resource, dir);
+        }
+
+        final File localResource = localPath(resource);
+        if(localResource == null) {
+            return super.localFileUpdate(resource, dir);
+        }
+        final File localDir = localPath(dir);
+        if(localDir == null) {
+            return super.localFileUpdate(resource, dir);
+        }
+
+        return super.localFileUpdate(resolve(localResource), resolve(localDir));
+    }
+
     @Override public @Nullable File localPath(FileObject resource) {
         if(!(resource instanceof EclipseResourceFileObject)) {
             return super.localPath(resource);

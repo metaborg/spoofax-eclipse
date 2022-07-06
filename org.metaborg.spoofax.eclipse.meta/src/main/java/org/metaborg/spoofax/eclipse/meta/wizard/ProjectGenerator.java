@@ -25,6 +25,7 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.meta.core.config.ISpoofaxLanguageSpecConfig;
 import org.metaborg.spoofax.meta.core.config.ISpoofaxLanguageSpecConfigBuilder;
 import org.metaborg.spoofax.meta.core.config.SdfVersion;
+import org.metaborg.spoofax.meta.core.config.StrategoVersion;
 import org.metaborg.spoofax.meta.core.generator.GeneratorSettings;
 import org.metaborg.spoofax.meta.core.generator.eclipse.EclipseFeatureGenerator;
 import org.metaborg.spoofax.meta.core.generator.eclipse.EclipseLangSpecGenerator;
@@ -37,6 +38,7 @@ import org.metaborg.spoofax.meta.core.generator.general.LangSpecGenerator;
 import org.metaborg.spoofax.meta.core.generator.general.LangSpecGeneratorSettings;
 import org.metaborg.spoofax.meta.core.generator.general.LangSpecGeneratorSettingsBuilder;
 import org.metaborg.spoofax.meta.core.generator.general.LangTestGenerator;
+import org.metaborg.spoofax.meta.core.generator.general.TransformationType;
 import org.metaborg.spoofax.meta.core.generator.general.SyntaxType;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpec;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpecService;
@@ -64,8 +66,9 @@ public class ProjectGenerator {
 
 
     public ISpoofaxLanguageSpec createLangSpecProject(LanguageIdentifier languageId, String languageName,
-        Collection<String> extensions, SyntaxType syntaxType, AnalysisType analysisType, @Nullable IPath basePath,
-        SubMonitor monitor) throws ProjectException, IOException, CoreException, ConfigException {
+        Collection<String> extensions, SyntaxType syntaxType, TransformationType transformationType, AnalysisType analysisType,
+        boolean analysisIncremental, boolean directoryBasedGrouping, @Nullable IPath basePath, SubMonitor monitor)
+                throws ProjectException, IOException, CoreException, ConfigException {
         monitor.setWorkRemaining(20);
 
         monitor.subTask("Generating language specification project");
@@ -86,27 +89,46 @@ public class ProjectGenerator {
             .withName(languageName)
             .withExtensions(extensions)
             .withSyntaxType(syntaxType)
+            .withTransformationType(transformationType)
             .withAnalysisType(analysisType)
+            .withAnalysisIncremental(analysisIncremental)
+            .withDirectoryBasedGrouping(directoryBasedGrouping)
             ;
         // @formatter:on
 
         final LangSpecGeneratorSettings settings = settingsBuilder.build(location, configBuilder);
         final LangSpecGenerator newGenerator = new LangSpecGenerator(settings);
         newGenerator.generateAll();
-        final @Nullable SdfVersion version;
-        final boolean enabled;
-        if(syntaxType == SyntaxType.SDF2) {
-            version = SdfVersion.sdf2;
-            enabled = true;
-        } else if(syntaxType == SyntaxType.SDF3) {
-            version = SdfVersion.sdf3;
-            enabled = true;
-        } else {
-            version = null;
-            enabled = false;
+        final @Nullable SdfVersion sdfVersion;
+        final @Nullable StrategoVersion strategoVersion;
+        final boolean sdfEnabled;
+        switch(syntaxType) {
+            case SDF2:
+                sdfVersion = SdfVersion.sdf2;
+                sdfEnabled = true;
+                break;
+            case SDF3:
+                sdfVersion = SdfVersion.sdf3;
+                sdfEnabled = true;
+                break;
+            default:
+                sdfVersion = null;
+                sdfEnabled = false;
+                break;
+        }
+        switch(transformationType) {
+            case Stratego1:
+                strategoVersion = StrategoVersion.v1;
+                break;
+            case Stratego2:
+                strategoVersion = StrategoVersion.v2;
+                break;
+            default:
+                strategoVersion = null;
+                break;
         }
         final ContinuousLanguageSpecGenerator generator =
-            new ContinuousLanguageSpecGenerator(settings.generatorSettings, enabled, version);
+            new ContinuousLanguageSpecGenerator(settings.generatorSettings, sdfEnabled, sdfVersion, strategoVersion);
         generator.generateAll();
         final EclipseLangSpecGenerator eclipseGenerator = new EclipseLangSpecGenerator(settings.generatorSettings);
         eclipseGenerator.generateAll();
@@ -129,7 +151,7 @@ public class ProjectGenerator {
     }
 
     public void createExampleProject(ISpoofaxLanguageSpecConfig config, @Nullable String projectId,
-        @Nullable IPath basePath, AnalysisType analysisType, SubMonitor monitor)
+        @Nullable IPath basePath, AnalysisType analysisType, boolean incremental, SubMonitor monitor)
         throws IOException, ProjectException, CoreException {
         monitor.setWorkRemaining(3);
 
@@ -147,7 +169,7 @@ public class ProjectGenerator {
         }
         createProject(project, basePath);
         final FileObject location = resourceService.resolve(project);
-        final GeneratorSettings settings = new GeneratorSettings(location, config, analysisType);
+        final GeneratorSettings settings = new GeneratorSettings(location, config, analysisType, incremental);
         final LangProjectGenerator generator = new LangProjectGenerator(settings);
         generator.generateAll();
         monitor.worked(1);

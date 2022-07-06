@@ -36,6 +36,20 @@
     <consoleName>Spoofax console</consoleName>
   </appender>
 
+  <!-- Appender for evaluation of Statix tests. Actual log level managed by runtime setting in metaborg.yaml. -->
+  <appender
+    name="statix-test-debug"
+    class="org.metaborg.spoofax.eclipse.logging.EclipseConsoleAppender"
+  >
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <encoder>
+      <pattern>%date{HH:mm} | %-5level | %-30.30logger{20} - %message%n</pattern>
+    </encoder>
+    <consoleName>Spoofax console</consoleName>
+  </appender>
+
   <root level="debug">
     <appender-ref ref="eclipse-log" />
     <appender-ref ref="eclipse-console" />
@@ -52,11 +66,18 @@
     name="org.apache.commons.vfs2"
     level="warn" />
   <logger
+    name="mb.statix.spoofax.StatixConstraintPrimitive"
+    level="debug"
+    additivity="false"
+  >
+    <appender-ref ref="statix-test-debug" />
+  </logger>
+  <logger
     name="mb.statix"
     level="info" />
 
   <!-- Statix concurrent logging -->
-  <!-- 
+  <!--
   <appender
     name="statix-concurrent-file"
     class="ch.qos.logback.core.FileAppender"

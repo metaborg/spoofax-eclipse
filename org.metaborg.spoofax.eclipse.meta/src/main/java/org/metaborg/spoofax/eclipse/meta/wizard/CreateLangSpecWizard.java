@@ -22,6 +22,7 @@ import org.metaborg.spoofax.eclipse.meta.SpoofaxMetaPlugin;
 import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.meta.core.config.ISpoofaxLanguageSpecConfig;
 import org.metaborg.spoofax.meta.core.generator.general.AnalysisType;
+import org.metaborg.spoofax.meta.core.generator.general.TransformationType;
 import org.metaborg.spoofax.meta.core.generator.general.SyntaxType;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpec;
 import org.metaborg.util.log.ILogger;
@@ -64,7 +65,10 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
         final LanguageIdentifier languageId = page.languageIdentifier();
         final Collection<String> extensions = page.extensions();
         final SyntaxType syntaxType = page.syntaxType();
+        final TransformationType transformationType = page.transformationType();
         final AnalysisType analysisType = page.analysisType();
+        final boolean analysisIncremental = page.analysisIncremental();
+        final boolean directoryBasedGrouping = page.directoryBasedGrouping();
         final boolean generateExampleProject = page.generateExampleProject();
         final boolean generateTestProject = page.generateTestProject();
         final boolean generateEclipsePluginProject = page.generateEclipsePluginProject();
@@ -74,9 +78,10 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
         final IRunnableWithProgress runnable = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor) throws InvocationTargetException {
                 try {
-                    createAll(monitor, languageId, languageName, extensions, syntaxType, analysisType,
-                        generateExampleProject, generateTestProject, generateEclipsePluginProject,
-                        generateEclipseFeatureProject, generateEclipseUpdatesiteProject, basePath);
+                    createAll(monitor, languageId, languageName, extensions, syntaxType, transformationType,
+                        analysisType, analysisIncremental, directoryBasedGrouping, generateExampleProject,
+                        generateTestProject, generateEclipsePluginProject, generateEclipseFeatureProject,
+                        generateEclipseUpdatesiteProject, basePath);
                 } catch(Throwable e) {
                     throw new InvocationTargetException(e);
                 } finally {
@@ -99,9 +104,10 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
     }
 
     private void createAll(IProgressMonitor rootMonitor, LanguageIdentifier languageId, String languageName,
-        Collection<String> extensions, SyntaxType syntaxType, AnalysisType analysisType, boolean generateExampleProject,
-        boolean generateTestProject, boolean generateEclipsePluginProject, boolean generateEclipseFeatureProject,
-        boolean generateEclipseUpdatesiteProject, @Nullable IPath basePath)
+        Collection<String> extensions, SyntaxType syntaxType, TransformationType transformationType,
+        AnalysisType analysisType, boolean analysisIncremental, boolean directoryBasedGrouping,
+        boolean generateExampleProject, boolean generateTestProject, boolean generateEclipsePluginProject,
+        boolean generateEclipseFeatureProject, boolean generateEclipseUpdatesiteProject, @Nullable IPath basePath)
         throws ProjectException, IOException, CoreException, ConfigException, OperationCanceledException {
         final SubMonitor monitor = SubMonitor.convert(rootMonitor, "Generating language projects",
             100 + (generateExampleProject ? 1 : 0) + (generateTestProject ? 1 : 0)
@@ -109,10 +115,12 @@ public class CreateLangSpecWizard extends Wizard implements INewWizard {
                 + (generateEclipseUpdatesiteProject ? 1 : 0));
 
         final ISpoofaxLanguageSpec langSpec = projectGenerator.createLangSpecProject(languageId, languageName,
-            extensions, syntaxType, analysisType, basePath, monitor.newChild(100));
+            extensions, syntaxType, transformationType, analysisType, analysisIncremental, directoryBasedGrouping,
+            basePath, monitor.newChild(100));
         final ISpoofaxLanguageSpecConfig config = langSpec.config();
         if(generateExampleProject) {
-            projectGenerator.createExampleProject(config, null, basePath, analysisType, monitor.newChild(1));
+            projectGenerator.createExampleProject(config, null, basePath, analysisType, analysisIncremental,
+                monitor.newChild(1));
         }
         if(generateTestProject) {
             projectGenerator.createTestProject(config, null, basePath, monitor.newChild(1));
