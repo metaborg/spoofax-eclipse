@@ -1,6 +1,9 @@
 package org.metaborg.spoofax.eclipse.transform;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -23,9 +26,6 @@ import org.metaborg.core.menu.IMenuService;
 import org.metaborg.core.menu.Separator;
 import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.io.BaseEncoding;
 import com.google.inject.Injector;
 
 public abstract class MenuContribution extends CompoundContributionItem implements IWorkbenchContribution {
@@ -53,7 +53,7 @@ public abstract class MenuContribution extends CompoundContributionItem implemen
 
     protected IContributionItem[] getContributionItems(ILanguageImpl language, boolean hasOpenEditor) {
         final Iterable<IMenuItem> menuItems = menuService.menuItems(language);
-        final Collection<IContributionItem> items = Lists.newLinkedList();
+        final Collection<IContributionItem> items = new ArrayList<>();
         for(IMenuItem menuItem : menuItems) {
             items.add(createItem(menuItem, language, hasOpenEditor));
         }
@@ -85,10 +85,10 @@ public abstract class MenuContribution extends CompoundContributionItem implemen
     private IContributionItem createAction(IMenuAction action, ILanguageImpl language, boolean hasOpenEditor) {
         final CommandContributionItemParameter itemParams =
             new CommandContributionItemParameter(serviceLocator, null, transformId, CommandContributionItem.STYLE_PUSH);
-        final Map<String, String> parameters = Maps.newHashMap();
+        final Map<String, String> parameters = new HashMap<>();
         parameters.put(languageIdParam, language.id().toString());
         final ITransformGoal goal = action.action().goal();
-        parameters.put(actionNameParam, BaseEncoding.base64().encode(SerializationUtils.serialize(goal)));
+        parameters.put(actionNameParam, Base64.getEncoder().encodeToString(SerializationUtils.serialize(goal)));
         parameters.put(hasOpenEditorParam, Boolean.toString(hasOpenEditor));
         itemParams.parameters = parameters;
         itemParams.label = action.name();
@@ -102,7 +102,7 @@ public abstract class MenuContribution extends CompoundContributionItem implemen
     }
 
     public static ITransformGoal toGoal(ExecutionEvent event) {
-        return SerializationUtils.deserialize(BaseEncoding.base64().decode(event.getParameter(actionNameParam)));
+        return SerializationUtils.deserialize(Base64.getDecoder().decode(event.getParameter(actionNameParam)));
     }
 
     public static boolean toHasOpenEditor(ExecutionEvent event) {

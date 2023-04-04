@@ -4,8 +4,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.metaborg.core.outline.IOutline;
 import org.metaborg.core.outline.IOutlineNode;
-
-import com.google.common.collect.Iterables;
+import org.metaborg.util.iterators.Iterables2;
 
 public class SpoofaxContentProvider implements ITreeContentProvider {
     @Override public void dispose() {
@@ -21,7 +20,7 @@ public class SpoofaxContentProvider implements ITreeContentProvider {
         // Workaround for https://bugs.eclipse.org/9262, make sure that the root object does not equal the input.
         final IOutline outline = OutlineUtils.outline(input);
         if(outline != null) {
-            return Iterables.toArray(outline.roots(), IOutlineNode.class);
+            return Iterables2.toArray(outline.roots(), IOutlineNode.class);
         }
 
         final IOutlineNode node = OutlineUtils.node(input);
@@ -36,7 +35,7 @@ public class SpoofaxContentProvider implements ITreeContentProvider {
         if(node == null) {
             return new Object[0];
         }
-        return Iterables.toArray(node.nodes(), IOutlineNode.class);
+        return Iterables2.toArray(node.nodes(), IOutlineNode.class);
     }
 
     @Override public Object getParent(Object element) {
@@ -52,6 +51,6 @@ public class SpoofaxContentProvider implements ITreeContentProvider {
         if(node == null) {
             return false;
         }
-        return !Iterables.isEmpty(node.nodes());
+        return !Iterables2.isEmpty(node.nodes());
     }
 }

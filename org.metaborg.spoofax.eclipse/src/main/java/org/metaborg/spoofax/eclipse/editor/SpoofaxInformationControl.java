@@ -1,5 +1,8 @@
 package org.metaborg.spoofax.eclipse.editor;
 
+import java.util.ArrayList;
+import java.util.Base64;
+
 /*******************************************************************************
  * Copyright (c) 2000, 2012 IBM Corporation and others. All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is
@@ -66,9 +69,6 @@ import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
 import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
 import org.metaborg.spoofax.eclipse.util.StyleUtils;
 import org.spoofax.interpreter.terms.IStrategoTerm;
-
-import com.google.common.collect.Lists;
-import com.google.common.io.BaseEncoding;
 
 /**
  * Source viewer based implementation of {@link org.eclipse.jface.text.IInformationControl}. Displays information in a
@@ -262,7 +262,7 @@ class SpoofaxInformationControl implements IInformationControl, IInformationCont
      */
     @Override public void setInput(Object input) {
         if(input instanceof String) {
-            setCompletionInformation(SerializationUtils.<ICompletion>deserialize(BaseEncoding.base64().decode(
+            setCompletionInformation(SerializationUtils.<ICompletion>deserialize(Base64.getDecoder().decode(
                 (String) input)));
         } else if(input instanceof ICompletion) {
             setCompletionInformation((ICompletion) input);
@@ -317,7 +317,7 @@ class SpoofaxInformationControl implements IInformationControl, IInformationCont
         if(prefixRegion == null && suffixRegion == null)
             return;
 
-        Collection<IRegionStyle<IStrategoTerm>> stylesPrefixSuffix = Lists.newLinkedList();
+        Collection<IRegionStyle<IStrategoTerm>> stylesPrefixSuffix = new ArrayList<>();
 
         Style style = new Style(new java.awt.Color(196, 196, 196), null, false, false, false, false);
 

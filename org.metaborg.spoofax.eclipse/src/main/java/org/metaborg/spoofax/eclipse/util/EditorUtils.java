@@ -17,10 +17,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.metaborg.core.source.ISourceRegion;
+import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.collect.Iterables;
 
 public class EditorUtils {
     private static final ILogger logger = LoggerUtils.logger(EditorUtils.class);
@@ -57,7 +56,7 @@ public class EditorUtils {
 
     public static void open(final Iterable<IFile> files, final int conformationThreshold) {
         // Run in the UI thread because we need to get the active workbench window and page.
-        final int count = Iterables.size(files);
+        final int count = Iterables2.size(files);
         final Display display = Display.getDefault();
         display.asyncExec(new Runnable() {
             @Override public void run() {
@@ -67,7 +66,7 @@ public class EditorUtils {
                 }
                 final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 try {
-                    IDE.openEditors(page, Iterables.toArray(files, IFile.class));
+                    IDE.openEditors(page, Iterables2.toArray(files, IFile.class));
                 } catch(MultiPartInitException e) {
                     logger.error("Cannot open editor", e);
                 }

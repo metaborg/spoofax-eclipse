@@ -1,6 +1,9 @@
 package org.metaborg.spoofax.eclipse.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -12,10 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.primitives.Ints;
 
 public class BuilderUtils {
     private static final ILogger logger = LoggerUtils.logger(BuilderUtils.class);
@@ -116,7 +115,7 @@ public class BuilderUtils {
         final IProjectDescription projectDesc = project.getDescription();
         final ICommand[] builders = projectDesc.getBuildSpec();
         final int[] indexes = indexes(beforeId, builders);
-        final int index = Ints.min(indexes);
+        final int index = Arrays.stream(indexes).min().getAsInt();
         addTo(id, project, index, projectDesc, builders, monitor, triggers);
     }
 
@@ -145,7 +144,7 @@ public class BuilderUtils {
         final IProjectDescription projectDesc = project.getDescription();
         final ICommand[] builders = projectDesc.getBuildSpec();
         final int[] indexes = indexes(afterId, builders);
-        final int index = Ints.max(indexes);
+        final int index = Arrays.stream(indexes).max().getAsInt();
         addTo(id, project, index + 1, projectDesc, builders, monitor, triggers);
     }
 
@@ -214,12 +213,12 @@ public class BuilderUtils {
         throws CoreException {
         final IProjectDescription projectDesc = project.getDescription();
         final ICommand[] builders = projectDesc.getBuildSpec();
-        final Map<String, ICommand> buildersMap = Maps.newLinkedHashMap();
+        final Map<String, ICommand> buildersMap = new LinkedHashMap<>();
         for(ICommand builder : builders) {
             buildersMap.put(builder.getBuilderName(), builder);
         }
 
-        final Collection<ICommand> newBuilders = Lists.newArrayListWithCapacity(builders.length);
+        final Collection<ICommand> newBuilders = new ArrayList<>(builders.length);
         for(String name : sortOrder) {
             final ICommand builder = buildersMap.get(name);
             if(builder != null) {
@@ -237,14 +236,16 @@ public class BuilderUtils {
     }
 
     private static int[] indexes(String id, ICommand[] builders) throws CoreException {
-        final Collection<Integer> indexes = Lists.newArrayList();
+        final int[] indexes = new int[builders.length];
+        int idx = 0;
         for(int i = 0; i < builders.length; ++i) {
             final ICommand builder = builders[i];
             if(builder.getBuilderName().equals(id)) {
-                indexes.add(i);
+                indexes[idx] = i;
+                idx++;
             }
         }
-        return Ints.toArray(indexes);
+        return Arrays.copyOf(indexes, idx);
     }
 
     private static boolean contains(String id, ICommand[] builders) throws CoreException {

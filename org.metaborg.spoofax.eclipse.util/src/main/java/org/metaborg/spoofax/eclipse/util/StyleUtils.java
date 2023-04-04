@@ -3,6 +3,7 @@ package org.metaborg.spoofax.eclipse.util;
 import static org.apache.commons.lang3.math.NumberUtils.max;
 import static org.apache.commons.lang3.math.NumberUtils.min;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -18,8 +19,6 @@ import org.eclipse.ui.PlatformUI;
 import org.metaborg.core.source.ISourceRegion;
 import org.metaborg.core.style.IRegionStyle;
 import org.metaborg.core.style.IStyle;
-
-import com.google.common.collect.Lists;
 
 /**
  * Utility functions for creating Eclipse text styles.
@@ -205,7 +204,7 @@ public final class StyleUtils {
      * @return Collection of deep style range copies.
      */
     public static Collection<StyleRange> deepCopies(TextPresentation presentation) {
-        final Collection<StyleRange> styleRanges = Lists.newLinkedList();
+        final Collection<StyleRange> styleRanges = new ArrayList<>();
         for(Iterator<StyleRange> iter = presentation.getNonDefaultStyleRangeIterator(); iter.hasNext();) {
             final StyleRange styleRange = iter.next();
             styleRanges.add(deepCopy(styleRange));

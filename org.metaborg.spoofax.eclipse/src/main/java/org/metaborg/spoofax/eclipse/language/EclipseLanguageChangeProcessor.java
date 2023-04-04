@@ -1,6 +1,7 @@
 package org.metaborg.spoofax.eclipse.language;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.vfs2.FileObject;
@@ -28,12 +29,12 @@ import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.EditorMappingUtils;
 import org.metaborg.spoofax.eclipse.util.MarkerUtils;
 import org.metaborg.spoofax.eclipse.util.ResourceUtils;
+import org.metaborg.util.Strings;
+import org.metaborg.util.collection.Sets;
+import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 /**
@@ -72,7 +73,7 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
 
         final Set<String> extensions = getExtensions(component);
         if(!extensions.isEmpty()) {
-            logger.debug("Associating extension(s) {} to Spoofax editor", Joiner.on(", ").join(extensions));
+            logger.debug("Associating extension(s) {} to Spoofax editor", Strings.join(extensions, ", "));
             display.asyncExec(new Runnable() {
                 @Override public void run() {
                     EditorMappingUtils.set(eclipseEditorRegistry, SpoofaxEditor.id, extensions);
@@ -89,14 +90,13 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
         final Set<String> oldExtensions = getExtensions(oldComponent);
         final Set<String> newExtensions = getExtensions(newComponent);
         if(!oldExtensions.isEmpty() || !newExtensions.isEmpty()) {
-            final Set<String> removeExtensions = Sets.difference(oldExtensions, newExtensions);
-            final Set<String> addExtensions = Sets.difference(newExtensions, oldExtensions);
-            if(removeExtensions.size() > 0) {
-                logger.debug("Unassociating extension(s) {} from Spoofax editor", Joiner.on(", ")
-                    .join(removeExtensions));
+            final Set<String> removeExtensions = new HashSet<>(Sets.difference(oldExtensions, newExtensions));
+            final Set<String> addExtensions = new HashSet<>(Sets.difference(newExtensions, oldExtensions));
+            if(!removeExtensions.isEmpty()) {
+                logger.debug("Unassociating extension(s) {} from Spoofax editor", Strings.join(removeExtensions, ", "));
             }
-            if(addExtensions.size() > 0) {
-                logger.debug("Associating extension(s) {} to Spoofax editor", Joiner.on(", ").join(addExtensions));
+            if(!addExtensions.isEmpty()) {
+                logger.debug("Associating extension(s) {} to Spoofax editor", Strings.join(addExtensions, ", "));
             }
             display.asyncExec(new Runnable() {
                 @Override public void run() {
@@ -114,7 +114,7 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
 
         final Set<String> extensions = getExtensions(component);
         if(!extensions.isEmpty()) {
-            logger.debug("Unassociating extension(s) {} from Spoofax editor", Joiner.on(", ").join(extensions));
+            logger.debug("Unassociating extension(s) {} from Spoofax editor", Strings.join(extensions, ", "));
             display.asyncExec(new Runnable() {
                 @Override public void run() {
                     EditorMappingUtils.remove(eclipseEditorRegistry, SpoofaxEditor.id, extensions);
@@ -153,9 +153,9 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
 
 
     private Set<String> getExtensions(ILanguageComponent component) {
-        final Set<String> extensions = Sets.newHashSet();
+        final Set<String> extensions = new HashSet<>();
         for(ResourceExtensionFacet facet : component.facets(ResourceExtensionFacet.class)) {
-            Iterables.addAll(extensions, facet.extensions());
+            Iterables2.addAll(extensions, facet.extensions());
         }
         return extensions;
     }

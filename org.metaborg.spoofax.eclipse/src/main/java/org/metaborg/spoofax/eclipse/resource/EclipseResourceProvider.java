@@ -8,12 +8,11 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
-
-import com.google.common.collect.ImmutableList;
+import org.metaborg.util.collection.ImList;
 
 public class EclipseResourceProvider extends AbstractOriginatingFileProvider {
     // @formatter:off
-    public static final Collection<Capability> capabilities = ImmutableList.of(
+    public static final Collection<Capability> capabilities = ImList.Immutable.of(
         Capability.CREATE,
         Capability.DELETE,
         Capability.RENAME,

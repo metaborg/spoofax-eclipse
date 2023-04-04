@@ -35,10 +35,9 @@ import org.metaborg.spoofax.eclipse.editor.completion.SpoofaxContentAssistProces
 import org.metaborg.spoofax.eclipse.editor.tracing.SpoofaxHyperlinkDetector;
 import org.metaborg.spoofax.eclipse.editor.tracing.SpoofaxTextHover;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
+import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.collect.Iterables;
 
 @SuppressWarnings("restriction")
 public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends IParseUnit, A extends IAnalyzeUnit, F>
@@ -82,7 +81,7 @@ public class MetaBorgSourceViewerConfiguration<I extends IInputUnit, P extends I
                 editor.resource());
             return new String[0];
         }
-        return Iterables.toArray(syntaxService.singleLineCommentPrefixes(language), String.class);
+        return Iterables2.toArray(syntaxService.singleLineCommentPrefixes(language), String.class);
     }
 
     @Override public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
