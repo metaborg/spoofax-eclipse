@@ -1,8 +1,8 @@
 package org.metaborg.spoofax.eclipse.editor;
 
+import java.util.HashSet;
 import java.util.concurrent.CancellationException;
 
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -57,8 +57,6 @@ import org.metaborg.spoofax.eclipse.util.StatusUtils;
 import org.metaborg.util.concurrent.IClosableLock;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.collect.Sets;
 
 public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A extends IAnalyzeUnit, AU extends IAnalyzeUnitUpdate, F>
     extends Job {
@@ -367,7 +365,7 @@ public class EditorUpdateJob<I extends IInputUnit, P extends IParseUnit, A exten
                 analysisResultProcessor.error(resource, new AnalysisException(context, "Editor update job killed", e));
                 throw e;
             }
-            analysisResultProcessor.update(analysisResult.result(), Sets.<FileName>newHashSet());
+            analysisResultProcessor.update(analysisResult.result(), new HashSet<>());
         }
         return analysisResult;
     }

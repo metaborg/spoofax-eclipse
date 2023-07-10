@@ -1,5 +1,6 @@
 package org.metaborg.spoofax.eclipse.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -12,8 +13,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.collect.Lists;
 
 public class ResourceUtils {
     private static final ILogger logger = LoggerUtils.logger(ResourceUtils.class);
@@ -33,7 +32,7 @@ public class ResourceUtils {
      */
     public static Collection<FileObject> workspaceResources(IEclipseResourceService resourceService,
         FileSelector selector, IWorkspaceRoot workspaceRoot) throws FileSystemException {
-        final Collection<FileObject> resources = Lists.newLinkedList();
+        final Collection<FileObject> resources = new ArrayList<>();
         // GTODO: should this include hidden projects?
         for(IProject project : workspaceRoot.getProjects()) {
             if(project.exists() && project.isOpen()) {
@@ -56,7 +55,7 @@ public class ResourceUtils {
      */
     public static Collection<IResource> toEclipseResources(IEclipseResourceService resourceService,
         Collection<FileObject> resources) {
-        final Collection<IResource> eclipseResources = Lists.newArrayListWithExpectedSize(resources.size());
+        final Collection<IResource> eclipseResources = new ArrayList<>(resources.size());
         for(FileObject resource : resources) {
             final IResource eclipseResource = resourceService.unresolve(resource);
             if(eclipseResource != null) {
@@ -79,7 +78,7 @@ public class ResourceUtils {
      */
     public static Collection<FileObject> toResources(IEclipseResourceService resourceService,
         Collection<IResource> eclipseResources) {
-        final Collection<FileObject> resources = Lists.newArrayListWithExpectedSize(eclipseResources.size());
+        final Collection<FileObject> resources = new ArrayList<>(eclipseResources.size());
         for(IResource eclipseResource : eclipseResources) {
             final FileObject resource = resourceService.resolve(eclipseResource);
             if(resource != null) {

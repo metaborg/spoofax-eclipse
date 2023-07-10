@@ -3,6 +3,7 @@ package org.metaborg.spoofax.eclipse.meta.wizard;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import org.apache.commons.vfs2.AllFileSelector;
 import org.apache.commons.vfs2.FileObject;
@@ -38,7 +39,7 @@ import org.metaborg.spoofax.meta.core.generator.general.ContinuousLanguageSpecGe
 import org.metaborg.spoofax.meta.core.generator.general.LangSpecGenerator;
 import org.metaborg.spoofax.meta.core.generator.general.LangSpecGeneratorSettings;
 import org.metaborg.spoofax.meta.core.generator.general.LangSpecGeneratorSettingsBuilder;
-import org.metaborg.spoofax.meta.core.generator.general.SyntaxType;
+import org.metaborg.util.Strings;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 import org.metaborg.util.resource.ContainsFileSelector;
@@ -47,9 +48,6 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 import org.spoofax.interpreter.terms.ITermFactory;
 import org.spoofax.terms.ParseError;
 import org.spoofax.terms.io.binary.TermReader;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 
 public class UpgradeLangSpecWizard extends Wizard {
     private static final ILogger logger = LoggerUtils.logger(UpgradeLangSpecWizard.class);
@@ -162,7 +160,7 @@ public class UpgradeLangSpecWizard extends Wizard {
                         .withId(id)
                         .withVersion(version)
                         .withName(name)
-                        .withExtensions(Lists.<String>newArrayList())
+                        .withExtensions(new ArrayList<>())
                         //.withSyntaxType(syntaxType)
                         //.withAnalysisType(analysisType)
                         ;

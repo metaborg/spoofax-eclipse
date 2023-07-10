@@ -1,5 +1,6 @@
 package org.metaborg.spoofax.eclipse.editor.completion;
 
+import java.util.Base64;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -38,6 +39,8 @@ import org.metaborg.spoofax.core.unit.ISpoofaxInputUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
 import org.metaborg.spoofax.core.unit.ISpoofaxTransformUnit;
 import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
+import org.metaborg.util.collection.ListMultimap;
+import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -46,16 +49,11 @@ import org.spoofax.terms.visitor.AStrategoTermVisitor;
 import org.spoofax.terms.visitor.IStrategoTermVisitor;
 import org.spoofax.terms.visitor.StrategoTermVisitee;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
-import com.google.common.io.BaseEncoding;
-
 public class SpoofaxCompletionProposal
     implements ICompletionProposal, ICompletionProposalExtension3, ICompletionProposalExtension5 {
     private static class CompletionData {
         public final String text;
-        public final Multimap<String, ProposalPosition> placeholders;
+        public final ListMultimap<String, ProposalPosition> placeholders;
         public final int cursorSequence;
         public final int cursorPosition;
         public int finalSequence = 0;
@@ -64,11 +62,11 @@ public class SpoofaxCompletionProposal
         public CompletionData(IDocument document, String text, ITextViewer viewer, int offset, ICompletion completion,
             ICompletionService<ISpoofaxParseUnit> completionService, ISpoofaxParseUnit parseResult,
             IInformationControlCreator informationControlCreator) {
-            placeholders = ArrayListMultimap.create();
+            placeholders = new ListMultimap<>();
             this.text = text;
 
             int sequenceNumber = 0;
-            int sequenceSize = Iterables.size(completion.items());
+            int sequenceSize = Iterables2.size(completion.items());
 
             for(ICompletionItem item : completion.items()) {
                 if(item instanceof IPlaceholderCompletionItem) {
@@ -116,7 +114,7 @@ public class SpoofaxCompletionProposal
                 return null;
             }
 
-            final int numCompletions = Iterables.size(completions);
+            final int numCompletions = Iterables2.size(completions);
             final ICompletionProposal[] proposals = new ICompletionProposal[numCompletions];
             int i = 0;
             for(ICompletion completion : completions) {
@@ -213,13 +211,13 @@ public class SpoofaxCompletionProposal
 
             if(!data.placeholders.isEmpty()) {
                 final LinkedModeModel model = new LinkedModeModel();
-                for(Collection<ProposalPosition> positions : data.placeholders.asMap().values()) {
+                data.placeholders.forEach((name, positions) -> {
                     final LinkedPositionGroup group = new LinkedPositionGroup();
                     for(ProposalPosition position : positions) {
                         group.addPosition(position);
                     }
                     model.addGroup(group);
-                }
+                });
                 model.forceInstall();
                 final LinkedModeUI ui = new LinkedModeUI(model, textViewer);
                 ui.setExitPosition(textViewer, endingCursorOffset, 0, data.cursorSequence);
@@ -309,7 +307,7 @@ public class SpoofaxCompletionProposal
     }
 
     @Override public String getAdditionalProposalInfo() {
-        return BaseEncoding.base64().encode(SerializationUtils.serialize(completion));
+        return Base64.getEncoder().encodeToString(SerializationUtils.serialize(completion));
     }
 
 

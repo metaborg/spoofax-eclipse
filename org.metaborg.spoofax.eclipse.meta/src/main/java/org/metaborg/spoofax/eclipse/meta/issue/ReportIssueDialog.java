@@ -30,8 +30,6 @@ import org.metaborg.spoofax.eclipse.meta.SpoofaxMetaPlugin;
 import org.metaborg.spoofax.eclipse.util.BundleUtils;
 import org.osgi.framework.Bundle;
 
-import com.google.common.collect.Iterables;
-
 public class ReportIssueDialog extends Dialog {
     public ReportIssueDialog(Shell parent) {
         super(parent);
@@ -106,7 +104,7 @@ public class ReportIssueDialog extends Dialog {
             if(result == null) {
                 return null;
             }
-            final IInstallableUnit iu = Iterables.get(result, 0);
+            final IInstallableUnit iu = result.iterator().next();
             return iu.toString();
         } catch(Exception e) {
 

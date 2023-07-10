@@ -9,8 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-
-import com.google.common.base.Strings;
+import org.metaborg.util.Strings;
 
 public class LanguageIdentifierControls {
     public final Group container;

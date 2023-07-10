@@ -1,5 +1,6 @@
 package org.metaborg.spoofax.eclipse.transform;
 
+import java.util.Collection;
 import java.util.concurrent.CancellationException;
 
 import org.apache.commons.vfs2.FileObject;
@@ -29,12 +30,10 @@ import org.metaborg.spoofax.core.unit.ISpoofaxUnitService;
 import org.metaborg.spoofax.eclipse.job.ThreadKillerJob;
 import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.eclipse.util.StatusUtils;
+import org.metaborg.util.Strings;
 import org.metaborg.util.concurrent.IClosableLock;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
 
 public class TransformJob extends Job {
     private static final ILogger logger = LoggerUtils.logger(TransformJob.class);
@@ -49,7 +48,7 @@ public class TransformJob extends Job {
     private final ISpoofaxAnalysisResultRequester analysisResultRequester;
 
     private final ILanguageImpl langImpl;
-    private final Iterable<TransformResource> resources;
+    private final Collection<TransformResource> resources;
     private final ITransformGoal goal;
 
     private ThreadKillerJob threadKiller;
@@ -58,7 +57,7 @@ public class TransformJob extends Job {
     public TransformJob(IContextService contextService, ISpoofaxUnitService unitService,
         ISpoofaxTransformService transformService, ISpoofaxParseResultRequester parseResultProcessor,
         ISpoofaxAnalysisService analysisService, ISpoofaxAnalysisResultRequester analysisResultProcessor,
-        ILanguageImpl langImpl, Iterable<TransformResource> resources, ITransformGoal goal) {
+        ILanguageImpl langImpl, Collection<TransformResource> resources, ITransformGoal goal) {
         super("Transforming resources");
 
         this.contextService = contextService;
@@ -97,7 +96,7 @@ public class TransformJob extends Job {
         }
 
         logger.debug("Cancelling transform job for {}, interrupting in {}ms, killing in {}ms",
-            Joiner.on(", ").join(resources), interruptTimeMillis, interruptTimeMillis + killTimeMillis);
+            Strings.tsJoin(resources, ", "), interruptTimeMillis, interruptTimeMillis + killTimeMillis);
         threadKiller = new ThreadKillerJob(thread, killTimeMillis);
         threadKiller.schedule(interruptTimeMillis);
     }
@@ -108,7 +107,7 @@ public class TransformJob extends Job {
         if(monitor.isCanceled())
             return StatusUtils.cancel();
 
-        final SubMonitor loopMonitor = monitor.split(1).setWorkRemaining(Iterables.size(resources));
+        final SubMonitor loopMonitor = monitor.split(1).setWorkRemaining(resources.size());
         for(TransformResource transformResource : resources) {
             if(loopMonitor.isCanceled())
                 return StatusUtils.cancel();

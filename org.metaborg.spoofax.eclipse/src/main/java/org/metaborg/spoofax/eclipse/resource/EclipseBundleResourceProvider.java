@@ -11,12 +11,11 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileProvider;
 import org.eclipse.core.runtime.FileLocator;
-
-import com.google.common.collect.ImmutableList;
+import org.metaborg.util.collection.ImList;
 
 public class EclipseBundleResourceProvider extends AbstractFileProvider {
     // @formatter:off
-    public static final Collection<Capability> capabilities = ImmutableList.of(
+    public static final Collection<Capability> capabilities = ImList.Immutable.of(
         Capability.DISPATCHER
     );
     // @formatter:on

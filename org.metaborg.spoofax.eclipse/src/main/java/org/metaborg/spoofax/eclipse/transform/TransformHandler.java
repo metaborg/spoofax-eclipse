@@ -1,7 +1,9 @@
 package org.metaborg.spoofax.eclipse.transform;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.apache.commons.vfs2.FileObject;
 import org.eclipse.core.commands.AbstractHandler;
@@ -33,12 +35,10 @@ import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.eclipse.util.RegionUtils;
 import org.metaborg.spoofax.eclipse.util.handler.AbstractHandlerUtils;
-import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -91,7 +91,7 @@ public class TransformHandler extends AbstractHandler {
         final ITransformGoal goal = MenuContribution.toGoal(event);
         final boolean hasOpenEditor = MenuContribution.toHasOpenEditor(event);
 
-        final Iterable<TransformResource> resources;
+        final Collection<TransformResource> resources;
         if(hasOpenEditor) {
             final IEclipseEditor<?> editor = editorRegistry.previousEditor();
             if(editor == null) {
@@ -105,7 +105,7 @@ public class TransformHandler extends AbstractHandler {
                 throw new ExecutionException(message);
             }
             final ISourceRegion selectedRegion = selectedRegion(editor);
-            resources = Iterables2.singleton(createTransformResource(editor.resource(), editor.document().get(), selectedRegion));
+            resources = Collections.singletonList(createTransformResource(editor.resource(), editor.document().get(), selectedRegion));
         } else {
             final Iterable<IResource> eclipseResources = AbstractHandlerUtils.toResources(event);
             if(eclipseResources == null) {
@@ -113,7 +113,7 @@ public class TransformHandler extends AbstractHandler {
                     .format("Cannot transform resource of {}; selection is null or not a structed selection", language);
                 throw new ExecutionException(message);
             }
-            final Collection<TransformResource> transformResources = Lists.newLinkedList();
+            final Collection<TransformResource> transformResources = new ArrayList<>();
             for(IResource eclipseResource : eclipseResources) {
                 final FileObject resource = resourceService.resolve(eclipseResource);
                 if(!languageIdentifierService.identify(resource, language)) {

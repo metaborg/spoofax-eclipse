@@ -1,6 +1,8 @@
 package org.metaborg.spoofax.eclipse.build;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.vfs2.FileObject;
@@ -42,8 +44,6 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.inject.Injector;
 
 public abstract class ProjectBuilder<P extends IParseUnit, A extends IAnalyzeUnit, AU extends IAnalyzeUnitUpdate, T extends ITransformUnit<?>>
@@ -60,7 +60,7 @@ public abstract class ProjectBuilder<P extends IParseUnit, A extends IAnalyzeUni
 
     private final SpoofaxPreferences preferences;
 
-    private final Map<org.eclipse.core.resources.IProject, BuildState> states = Maps.newHashMap();
+    private final Map<org.eclipse.core.resources.IProject, BuildState> states = new HashMap<>();
 
 
     public ProjectBuilder(IProcessorRunner<P, A, AU, T> processorRunner) {
@@ -162,7 +162,7 @@ public abstract class ProjectBuilder<P extends IParseUnit, A extends IAnalyzeUni
 
     private ITask<? extends IBuildOutput<P, A, AU, T>> incrBuild(IProject project, @Nullable BuildState state,
         IResourceDelta delta, IProgressMonitor monitor) throws CoreException, InterruptedException, MetaborgException {
-        final Collection<ResourceChange> changes = Lists.newLinkedList();
+        final Collection<ResourceChange> changes = new ArrayList<>();
         delta.accept(new IResourceDeltaVisitor() {
             @Override public boolean visit(IResourceDelta innerDelta) throws CoreException {
                 final ResourceChange change = resourceService.resolve(innerDelta);

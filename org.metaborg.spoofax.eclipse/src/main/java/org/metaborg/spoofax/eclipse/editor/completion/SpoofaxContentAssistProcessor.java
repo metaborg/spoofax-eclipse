@@ -21,10 +21,9 @@ import org.metaborg.core.syntax.IParseUnit;
 import org.metaborg.core.unit.IInputUnitService;
 import org.metaborg.spoofax.core.unit.ISpoofaxParseUnit;
 import org.metaborg.spoofax.eclipse.SpoofaxPlugin;
+import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-import com.google.common.collect.Iterables;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -116,7 +115,7 @@ public class SpoofaxContentAssistProcessor<I extends IInputUnit, P extends IPars
             return null;
         }
 
-        final int numCompletions = Iterables.size(completions);
+        final int numCompletions = Iterables2.size(completions);
         final ICompletionProposal[] proposals = new ICompletionProposal[numCompletions];
         int i = 0;
         for(ICompletion completion : completions) {

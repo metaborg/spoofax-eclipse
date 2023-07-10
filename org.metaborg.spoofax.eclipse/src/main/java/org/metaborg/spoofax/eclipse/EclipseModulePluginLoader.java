@@ -1,5 +1,6 @@
 package org.metaborg.spoofax.eclipse;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
@@ -10,7 +11,6 @@ import org.eclipse.core.runtime.Platform;
 import org.metaborg.core.MetaborgException;
 import org.metaborg.core.plugin.IModulePluginLoader;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Module;
 
 public class EclipseModulePluginLoader implements IModulePluginLoader {
@@ -23,7 +23,7 @@ public class EclipseModulePluginLoader implements IModulePluginLoader {
 
 
     @Override public Iterable<Module> modules() throws MetaborgException {
-        final Collection<Module> modules = Lists.newLinkedList();
+        final Collection<Module> modules = new ArrayList<>();
         final IExtensionRegistry registry = Platform.getExtensionRegistry();
         final IExtensionPoint point = registry.getExtensionPoint(extensionPoint);
         for(IConfigurationElement config : point.getConfigurationElements()) {

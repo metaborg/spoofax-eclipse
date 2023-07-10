@@ -1,6 +1,7 @@
 package org.metaborg.spoofax.eclipse.editor;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -65,7 +66,6 @@ import org.metaborg.spoofax.eclipse.util.StyleUtils;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Injector;
 
 public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit, A extends IAnalyzeUnit, AU extends IAnalyzeUnitUpdate, F>
@@ -386,7 +386,7 @@ public abstract class MetaBorgEditor<I extends IInputUnit, P extends IParseUnit,
         }
 
         final Iterable<FenceCharacters> fenceCharacters = syntaxService.fenceCharacters(language);
-        final Collection<Character> pairMatcherChars = Lists.newArrayList();
+        final Collection<Character> pairMatcherChars = new ArrayList<>();
         for(FenceCharacters fenceChars : fenceCharacters) {
             final String open = fenceChars.open;
             final String close = fenceChars.close;

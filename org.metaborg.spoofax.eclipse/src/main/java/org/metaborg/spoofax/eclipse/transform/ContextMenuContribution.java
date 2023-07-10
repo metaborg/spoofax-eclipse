@@ -1,6 +1,8 @@
 package org.metaborg.spoofax.eclipse.transform;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.vfs2.FileObject;
@@ -21,8 +23,6 @@ import org.metaborg.spoofax.eclipse.util.SelectionUtils;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.inject.Injector;
 
 public class ContextMenuContribution extends MenuContribution {
@@ -61,7 +61,7 @@ public class ContextMenuContribution extends MenuContribution {
         }
 
         final Iterable<IResource> resources = SelectionUtils.toResources(structuredSelection);
-        final Set<ILanguageImpl> languages = Sets.newHashSet();
+        final Set<ILanguageImpl> languages = new HashSet<>();
         for(IResource eclipseResource : resources) {
             final FileObject resource = resourceService.resolve(eclipseResource);
             final ILanguageImpl language = languageIdentifier.identify(resource);
@@ -70,7 +70,7 @@ public class ContextMenuContribution extends MenuContribution {
             }
         }
 
-        final Collection<IContributionItem> items = Lists.newLinkedList();
+        final Collection<IContributionItem> items = new ArrayList<>();
         for(ILanguageImpl language : languages) {
             final MenuManager menuManager = new MenuManager(language.belongsTo().name());
             final IContributionItem[] nestedItems = getContributionItems(language, false);

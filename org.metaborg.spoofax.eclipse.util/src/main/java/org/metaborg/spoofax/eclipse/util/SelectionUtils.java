@@ -1,5 +1,6 @@
 package org.metaborg.spoofax.eclipse.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -10,8 +11,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-
-import com.google.common.collect.Lists;
 
 /**
  * Utility functions for selections.
@@ -55,7 +54,7 @@ public class SelectionUtils {
      * @return Selected resources
      */
     public static Iterable<IResource> toResources(IStructuredSelection selection) {
-        final Collection<IResource> resources = Lists.newLinkedList();
+        final Collection<IResource> resources = new ArrayList<>();
         for(Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
             final Object selected = iterator.next();
             final IResource resource = elementToResource(selected);
@@ -113,7 +112,7 @@ public class SelectionUtils {
      * @return Selected files
      */
     public static Iterable<IFile> toFiles(IStructuredSelection selection) {
-        final Collection<IFile> files = Lists.newLinkedList();
+        final Collection<IFile> files = new ArrayList<>();
         for(Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
             final Object selected = iterator.next();
             final IFile file = elementToFile(selected);
@@ -166,7 +165,7 @@ public class SelectionUtils {
      * @return Selected projects
      */
     public static Iterable<IProject> toProjects(IStructuredSelection selection) {
-        final Collection<IProject> projects = Lists.newLinkedList();
+        final Collection<IProject> projects = new ArrayList<>();
         for(Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
             final Object selected = iterator.next();
             final IProject project = elementToProject(selected);
