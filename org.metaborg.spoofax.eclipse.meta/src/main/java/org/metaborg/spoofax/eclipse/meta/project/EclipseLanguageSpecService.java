@@ -15,7 +15,7 @@ import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpecService;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.inject.Inject;
+
 
 public class EclipseLanguageSpecService implements ISpoofaxLanguageSpecService {
     private static final ILogger logger = LoggerUtils.logger(EclipseLanguageSpecService.class);
@@ -24,7 +24,7 @@ public class EclipseLanguageSpecService implements ISpoofaxLanguageSpecService {
     private final ISpoofaxLanguageSpecConfigService configService;
 
 
-    @Inject public EclipseLanguageSpecService(ISourceTextService sourceTextService,
+    @jakarta.inject.Inject @javax.inject.Inject public EclipseLanguageSpecService(ISourceTextService sourceTextService,
         ISpoofaxLanguageSpecConfigService configService) {
         this.sourceTextService = sourceTextService;
         this.configService = configService;

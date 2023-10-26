@@ -5,7 +5,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.metaborg.spoofax.eclipse.util.CommandStateUtils;
 
-import com.google.inject.Inject;
+
 
 public class SpoofaxPreferences {
     private final ICommandService commandService;
@@ -16,7 +16,7 @@ public class SpoofaxPreferences {
     private final Command delayEditorAnalysisCommand;
 
 
-    @Inject public SpoofaxPreferences() {
+    @jakarta.inject.Inject @javax.inject.Inject public SpoofaxPreferences() {
         this.commandService = PlatformUI.getWorkbench().getService(ICommandService.class);
 
         this.disableBuildCommand = commandService.getCommand("org.metaborg.spoofax.eclipse.command.disable.build");

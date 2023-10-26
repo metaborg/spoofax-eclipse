@@ -43,7 +43,7 @@ import org.metaborg.spoofax.meta.core.generator.general.SyntaxType;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpec;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpecService;
 
-import com.google.inject.Inject;
+
 
 public class ProjectGenerator {
     private final IEclipseResourceService resourceService;
@@ -54,7 +54,7 @@ public class ProjectGenerator {
     private final IWorkspace workspace;
 
 
-    @Inject public ProjectGenerator(IEclipseResourceService resourceService, IProjectService projectService,
+    @jakarta.inject.Inject @javax.inject.Inject public ProjectGenerator(IEclipseResourceService resourceService, IProjectService projectService,
         ISpoofaxLanguageSpecService languageSpecService, ISpoofaxLanguageSpecConfigBuilder configBuilder) {
         this.resourceService = resourceService;
         this.projectService = projectService;

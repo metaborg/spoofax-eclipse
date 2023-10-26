@@ -12,7 +12,7 @@ import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.inject.Inject;
+
 
 public class EclipseProjectService implements IEclipseProjectService {
     private static final ILogger logger = LoggerUtils.logger(EclipseProjectService.class);
@@ -22,7 +22,7 @@ public class EclipseProjectService implements IEclipseProjectService {
     private final IProjectConfigService projectConfigService;
 
 
-    @Inject public EclipseProjectService(ISourceTextService sourceTextService, IEclipseResourceService resourceService,
+    @jakarta.inject.Inject @javax.inject.Inject public EclipseProjectService(ISourceTextService sourceTextService, IEclipseResourceService resourceService,
         IProjectConfigService projectConfigService) {
         this.sourceTextService = sourceTextService;
         this.resourceService = resourceService;

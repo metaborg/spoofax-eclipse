@@ -19,7 +19,7 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.util.task.ICancel;
 import org.metaborg.util.task.IProgress;
 
-import com.google.inject.Inject;
+
 
 /**
  * Typedef class for {@link Processor} with Spoofax interfaces.
@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 public class SpoofaxProcessor
     extends Processor<ISpoofaxParseUnit, ISpoofaxAnalyzeUnit, ISpoofaxAnalyzeUnitUpdate, ISpoofaxTransformUnit<?>>
     implements ISpoofaxProcessor {
-    @Inject public SpoofaxProcessor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
+    @jakarta.inject.Inject @javax.inject.Inject public SpoofaxProcessor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
         IDialectProcessor dialectProcessor, ISpoofaxBuilder builder, ILanguageChangeProcessor processor,
         GlobalSchedulingRules globalRules, LanguageLoader languageLoader) {
         super(resourceService, projectService, dialectProcessor, builder, processor, globalRules, languageLoader);

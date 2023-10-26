@@ -31,7 +31,7 @@ import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.inject.Inject;
+
 
 /**
  * Keeps track of all editors, which one is currently active, and which one was active previously.
@@ -54,7 +54,7 @@ public class EditorRegistry<F>
     private volatile IEclipseEditor<F> previousActive;
 
 
-    @Inject public EditorRegistry(IEclipseResourceService resourceService) {
+    @jakarta.inject.Inject @javax.inject.Inject public EditorRegistry(IEclipseResourceService resourceService) {
         this.resourceService = resourceService;
     }
 

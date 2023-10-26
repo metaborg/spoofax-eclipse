@@ -35,7 +35,7 @@ import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.inject.Inject;
+
 
 /**
  * Extends the {@code LanguageChangeProcessor} to include Eclipse-specific operations such as changing editor
@@ -52,7 +52,7 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
     private final Display display;
 
 
-    @Inject public EclipseLanguageChangeProcessor(IEclipseResourceService resourceService,
+    @jakarta.inject.Inject @javax.inject.Inject public EclipseLanguageChangeProcessor(IEclipseResourceService resourceService,
         ILanguageIdentifierService languageIdentifier, IDialectProcessor dialectProcessor,
         IContextProcessor contextProcessor, IParseResultProcessor<?, ?> parseResultProcessor,
         IAnalysisResultProcessor<?, ?, ?> analysisResultProcessor, org.metaborg.core.editor.IEditorRegistry editorRegistry,

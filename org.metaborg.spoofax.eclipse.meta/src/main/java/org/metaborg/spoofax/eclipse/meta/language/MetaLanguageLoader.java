@@ -24,7 +24,7 @@ import org.metaborg.spoofax.eclipse.resource.IEclipseResourceService;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.inject.Inject;
+
 
 public class MetaLanguageLoader implements IResourceChangeListener {
     private static final ILogger logger = LoggerUtils.logger(MetaLanguageLoader.class);
@@ -38,7 +38,7 @@ public class MetaLanguageLoader implements IResourceChangeListener {
     private final IWorkspaceRoot workspaceRoot;
 
 
-    @Inject public MetaLanguageLoader(IEclipseResourceService resourceService, IProjectService projectService,
+    @jakarta.inject.Inject @javax.inject.Inject public MetaLanguageLoader(IEclipseResourceService resourceService, IProjectService projectService,
         ILanguageSpecService languageSpecService, GlobalSchedulingRules globalRules, LanguageLoader languageLoader) {
         this.resourceService = resourceService;
         this.projectService = projectService;
