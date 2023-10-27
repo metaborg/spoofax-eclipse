@@ -54,6 +54,10 @@
       <artifactId>guice-assistedinject</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-multibindings</artifactId>
+    </dependency>
+    <dependency>
       <groupId>jakarta.annotation</groupId>
       <artifactId>jakarta.annotation-api</artifactId>
       <scope>provided</scope>
@@ -189,6 +193,7 @@
               guava,
               guice,
               guice-assistedinject,
+              guice-multibindings,
               jackson-annotations,
               jackson-databind,
               jackson-dataformat-yaml,
@@ -254,6 +259,7 @@
               !com.jcraft.jsch.*,
               !org.springframework.*,
               !org.checkerframework.*,
+              javax.inject,
               !javax.*,
               org.spoofax.*,
               org.metaborg.*,
