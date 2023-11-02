@@ -129,11 +129,6 @@
     unpack="true"
   />
   <plugin
-    id="stratego.compiler.pack"
-    version="2.6.0.qualifier"
-    unpack="false"
-  />
-  <plugin
     id="stratego.build"
     version="2.6.0.qualifier"
     unpack="false"
