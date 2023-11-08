@@ -65,6 +65,10 @@
       <groupId>jakarta.inject</groupId>
       <artifactId>jakarta.inject-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+    </dependency>
     <!-- VFS -->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -194,6 +198,7 @@
               jackson-core,
               jakarta.annotation-api,
               jakarta.inject-api,
+              javax.inject,
               jcl-over-slf4j,
               logback-classic,
               logback-core,
@@ -222,6 +227,7 @@
               org.aopalliance.*;provider=metaborg;mandatory:=provider;version=0,
               jakarta.annotation.*;provider=metaborg;mandatory:=provider;version=0,
               jakarta.inject.*;provider=metaborg;mandatory:=provider;version=0,
+              javax.inject.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.configuration2.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.text.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.io.*;provider=metaborg;mandatory:=provider;version=0,
@@ -255,7 +261,7 @@
               !com.jcraft.jsch.*,
               !org.springframework.*,
               !org.checkerframework.*,
-              javax.inject,
+              javax.inject;provider=metaborg;mandatory:=provider;version=0,
               !javax.*,
               org.spoofax.*,
               org.metaborg.*,
