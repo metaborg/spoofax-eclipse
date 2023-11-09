@@ -23,8 +23,6 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.collect.Lists;
-
 public class SpoofaxHyperlinkDetector<I extends IInputUnit, P extends IParseUnit, A extends IAnalyzeUnit, F>
     extends AbstractHyperlinkDetector {
     private static final ILogger logger = LoggerUtils.logger(SpoofaxHyperlinkDetector.class);
@@ -97,7 +95,7 @@ public class SpoofaxHyperlinkDetector<I extends IInputUnit, P extends IParseUnit
         if(resolution == null) {
             return null;
         }
-        ArrayList<IHyperlink> hyperlinks = Lists.newArrayList();
+        ArrayList<IHyperlink> hyperlinks = new ArrayList<>();
         for (ResolutionTarget target : resolution.targets) {
             hyperlinks.add(new SpoofaxHyperlink(resourceService, resolution.highlight, target.location, resource, editor, target.hyperlinkName));
         }

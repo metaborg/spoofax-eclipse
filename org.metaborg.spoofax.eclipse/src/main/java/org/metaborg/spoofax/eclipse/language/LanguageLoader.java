@@ -30,7 +30,7 @@ import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 import org.osgi.framework.Bundle;
 
-import com.google.inject.Inject;
+
 
 /**
  * Discovers all languages in plugins and workspace projects, and discovers languages when a project is opened.
@@ -47,7 +47,7 @@ public class LanguageLoader {
     private final IWorkspaceRoot workspaceRoot;
 
 
-    @Inject public LanguageLoader(IEclipseResourceService resourceService, ILanguageService languageService,
+    @jakarta.inject.Inject @javax.inject.Inject public LanguageLoader(IEclipseResourceService resourceService, ILanguageService languageService,
         ILanguageDiscoveryService languageDiscoveryService, IDialectProcessor dialectProcessor,
         GlobalSchedulingRules globalRules) {
         this.resourceService = resourceService;

@@ -2,6 +2,7 @@ package org.metaborg.spoofax.eclipse.editor.outline;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.vfs2.FileName;
@@ -14,12 +15,10 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.collect.Maps;
-
 public class SpoofaxLabelProvider extends LabelProvider {
     private static final ILogger logger = LoggerUtils.logger(SpoofaxLabelProvider.class);
 
-    private final Map<FileName, Image> icons = Maps.newHashMap();
+    private final Map<FileName, Image> icons = new HashMap<>();
 
 
     @Override public String getText(Object element) {

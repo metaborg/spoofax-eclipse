@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -18,8 +19,6 @@ import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 import org.osgi.framework.Bundle;
 
-import com.google.common.collect.Lists;
-
 public class AntClasspathGenerator {
     private static final ILogger logger = LoggerUtils.logger(AntClasspathGenerator.class);
 
@@ -27,7 +26,7 @@ public class AntClasspathGenerator {
      * @return List of classpath entries generated from installed Eclipse plugins.
      */
     public static URL[] classpaths() {
-        final Collection<URL> classpath = Lists.newLinkedList();
+        final Collection<URL> classpath = new LinkedList<>();
         final Map<String, Bundle> bundles = BundleUtils.bundlesBySymbolicName(SpoofaxMetaPlugin.context());
 
         final Bundle antBundle = bundles.get("org.apache.ant");

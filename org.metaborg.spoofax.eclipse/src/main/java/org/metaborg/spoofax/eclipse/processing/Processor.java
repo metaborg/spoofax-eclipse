@@ -40,7 +40,7 @@ import org.metaborg.util.task.ICancel;
 import org.metaborg.util.task.IProgress;
 import org.metaborg.util.task.NullCancel;
 
-import com.google.inject.Inject;
+
 
 /**
  * Processor implementation that schedules Eclipse workspace runnables and jobs.
@@ -59,7 +59,7 @@ public class Processor<P extends IParseUnit, A extends IAnalyzeUnit, AU extends 
     private final IWorkspace workspace;
 
 
-    @Inject public Processor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
+    @jakarta.inject.Inject @javax.inject.Inject public Processor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
         IDialectProcessor dialectProcessor, IBuilder<P, A, AU, T> builder, ILanguageChangeProcessor processor,
         GlobalSchedulingRules globalRules, LanguageLoader languageLoader) {
         this.resourceService = resourceService;

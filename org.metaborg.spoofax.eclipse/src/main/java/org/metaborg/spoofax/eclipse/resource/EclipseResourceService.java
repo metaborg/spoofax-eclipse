@@ -28,7 +28,7 @@ import org.metaborg.util.file.FileUtils;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.inject.Inject;
+
 import com.google.inject.name.Named;
 
 public class EclipseResourceService extends ResourceService implements IEclipseResourceService {
@@ -37,8 +37,8 @@ public class EclipseResourceService extends ResourceService implements IEclipseR
     private final IWorkspaceRoot root;
 
 
-    @Inject public EclipseResourceService(FileSystemManager fileSystemManager,
-        @Named("ResourceClassLoader") ClassLoader classLoader) {
+    @jakarta.inject.Inject @javax.inject.Inject public EclipseResourceService(FileSystemManager fileSystemManager,
+        @jakarta.inject.Named("ResourceClassLoader") @javax.inject.Named("ResourceClassLoader") ClassLoader classLoader) {
         super(fileSystemManager, classLoader);
 
         this.root = ResourcesPlugin.getWorkspace().getRoot();

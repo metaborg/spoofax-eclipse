@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.metaborg</groupId>
     <artifactId>parent</artifactId>
-    <version>2.5.18</version>
+    <version>2.6.0-SNAPSHOT</version>
     <relativePath>../../releng/parent</relativePath>
   </parent>
 
@@ -54,17 +54,20 @@
       <artifactId>guice-assistedinject</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.inject.extensions</groupId>
-      <artifactId>guice-multibindings</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <scope>provided</scope>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
     </dependency>
     <dependency>
       <groupId>aopalliance</groupId>
       <artifactId>aopalliance</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
     </dependency>
     <!-- VFS -->
     <dependency>
@@ -189,11 +192,13 @@
               guava,
               guice,
               guice-assistedinject,
-              guice-multibindings,
               jackson-annotations,
               jackson-databind,
               jackson-dataformat-yaml,
               jackson-core,
+              jakarta.annotation-api,
+              jakarta.inject-api,
+              javax.inject,
               jcl-over-slf4j,
               logback-classic,
               logback-core,
@@ -220,6 +225,9 @@
               com.google.common.*;provider=metaborg;mandatory:=provider;version=0,
               com.google.inject.*;provider=metaborg;mandatory:=provider;version=0,
               org.aopalliance.*;provider=metaborg;mandatory:=provider;version=0,
+              jakarta.annotation.*;provider=metaborg;mandatory:=provider;version=0,
+              jakarta.inject.*;provider=metaborg;mandatory:=provider;version=0,
+              javax.inject.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.configuration2.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.text.*;provider=metaborg;mandatory:=provider;version=0,
               org.apache.commons.io.*;provider=metaborg;mandatory:=provider;version=0,
@@ -253,7 +261,7 @@
               !com.jcraft.jsch.*,
               !org.springframework.*,
               !org.checkerframework.*,
-              javax.inject,
+              javax.inject;provider=metaborg;mandatory:=provider;version=0,
               !javax.*,
               org.spoofax.*,
               org.metaborg.*,

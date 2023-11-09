@@ -10,13 +10,13 @@ import org.metaborg.spoofax.eclipse.util.Nullable;
 import org.metaborg.spoofax.meta.core.ant.IAntRunner;
 import org.metaborg.spoofax.meta.core.ant.IAntRunnerService;
 
-import com.google.inject.Inject;
+
 
 public class EclipseAntRunnerService implements IAntRunnerService {
     private final IResourceService resourceService;
 
 
-    @Inject public EclipseAntRunnerService(IResourceService resourceService) {
+    @jakarta.inject.Inject @javax.inject.Inject public EclipseAntRunnerService(IResourceService resourceService) {
         this.resourceService = resourceService;
     }
 

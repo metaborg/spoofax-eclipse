@@ -11,8 +11,7 @@ import org.eclipse.ui.IFileEditorMapping;
 import org.eclipse.ui.internal.registry.EditorDescriptor;
 import org.eclipse.ui.internal.registry.EditorRegistry;
 import org.eclipse.ui.internal.registry.FileEditorMapping;
-
-import com.google.common.collect.Iterables;
+import org.metaborg.util.iterators.Iterables2;
 
 /**
  * Utility functions for changing editor mappings/associations.
@@ -26,7 +25,7 @@ public class EditorMappingUtils {
     public static void set(IEditorRegistry iEditorRegistry, String editorId, Iterable<String> iterExtensions) {
         final EditorRegistry editorRegistry = (EditorRegistry) iEditorRegistry;
         final EditorDescriptor editorDescription = (EditorDescriptor) editorRegistry.findEditor(editorId);
-        final String[] extensions = Iterables.toArray(iterExtensions, String.class);
+        final String[] extensions = Iterables2.toArray(iterExtensions, String.class);
         if(extensions.length == 0) {
             return;
         }
@@ -43,7 +42,7 @@ public class EditorMappingUtils {
     public static void remove(IEditorRegistry iEditorRegistry, String editorId, Iterable<String> iterExtensions) {
         final EditorRegistry editorRegistry = (EditorRegistry) iEditorRegistry;
         final EditorDescriptor editorDescription = (EditorDescriptor) editorRegistry.findEditor(editorId);
-        final String[] extensions = Iterables.toArray(iterExtensions, String.class);
+        final String[] extensions = Iterables2.toArray(iterExtensions, String.class);
         if(extensions.length == 0) {
             return;
         }

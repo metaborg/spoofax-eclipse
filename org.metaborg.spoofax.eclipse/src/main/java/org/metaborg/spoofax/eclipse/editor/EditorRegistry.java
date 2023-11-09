@@ -1,7 +1,10 @@
 package org.metaborg.spoofax.eclipse.editor;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.vfs2.FileObject;
 import org.eclipse.core.resources.IFile;
@@ -28,9 +31,7 @@ import org.metaborg.util.iterators.Iterables2;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.inject.Inject;
+
 
 /**
  * Keeps track of all editors, which one is currently active, and which one was active previously.
@@ -48,12 +49,12 @@ public class EditorRegistry<F>
     private IContextService contextService;
     private IContextActivation contextActivation;
 
-    private volatile Set<IEclipseEditor<F>> editors = Sets.newConcurrentHashSet();
+    private volatile Set<IEclipseEditor<F>> editors = ConcurrentHashMap.newKeySet();
     private volatile IEclipseEditor<F> currentActive;
     private volatile IEclipseEditor<F> previousActive;
 
 
-    @Inject public EditorRegistry(IEclipseResourceService resourceService) {
+    @jakarta.inject.Inject @javax.inject.Inject public EditorRegistry(IEclipseResourceService resourceService) {
         this.resourceService = resourceService;
     }
 
@@ -96,7 +97,7 @@ public class EditorRegistry<F>
 
 
     @Override public Iterable<IEditor> openEditors() {
-        final Collection<IEditor> openEditors = Lists.newArrayListWithCapacity(editors.size());
+        final Collection<IEditor> openEditors = new ArrayList<>(editors.size());
         for(IEclipseEditor<F> editor : editors) {
             openEditors.add(editor);
         }
@@ -108,7 +109,7 @@ public class EditorRegistry<F>
     }
 
     @Override public void open(Iterable<FileObject> resources, IProject project) {
-        Set<IFile> files = Sets.newHashSet();
+        Set<IFile> files = new HashSet<>();
         for(FileObject resource : resources) {
             final IResource eclipseResource = resourceService.unresolve(resource);
             if(eclipseResource instanceof IFile) {
