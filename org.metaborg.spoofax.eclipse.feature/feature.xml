@@ -148,6 +148,11 @@
     version="2.6.0.qualifier"
     unpack="false"
   />
+  <plugin
+    id="jsglr.shared"
+    version="2.6.0.qualifier"
+    unpack="false"
+  />
 
   <!-- Other dependencies, unpack some plugins for access to its JAR/native files. -->
   <plugin
