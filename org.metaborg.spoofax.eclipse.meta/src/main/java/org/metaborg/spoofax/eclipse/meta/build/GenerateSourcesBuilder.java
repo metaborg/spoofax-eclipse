@@ -16,7 +16,7 @@ import org.metaborg.spoofax.meta.core.build.LanguageSpecBuildInput;
 import org.metaborg.spoofax.meta.core.build.LanguageSpecBuilder;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpec;
 import org.metaborg.spoofax.meta.core.project.ISpoofaxLanguageSpecService;
-import org.metaborg.util.file.CollectionFileAccess;
+import mb.util.vfs2.file.CollectionFileAccess;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
 

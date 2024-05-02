@@ -24,12 +24,9 @@ import org.metaborg.core.resource.ResourceChange;
 import org.metaborg.core.resource.ResourceChangeKind;
 import org.metaborg.core.resource.ResourceService;
 import org.metaborg.spoofax.eclipse.util.Nullable;
-import org.metaborg.util.file.FileUtils;
+import mb.util.vfs2.file.FileUtils;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-
-
-import com.google.inject.name.Named;
 
 public class EclipseResourceService extends ResourceService implements IEclipseResourceService {
     private static final ILogger logger = LoggerUtils.logger(EclipseResourceService.class);

@@ -42,7 +42,7 @@ import org.metaborg.spoofax.meta.core.generator.general.LangSpecGeneratorSetting
 import org.metaborg.util.Strings;
 import org.metaborg.util.log.ILogger;
 import org.metaborg.util.log.LoggerUtils;
-import org.metaborg.util.resource.ContainsFileSelector;
+import mb.util.vfs2.resource.ContainsFileSelector;
 import org.spoofax.interpreter.terms.IStrategoAppl;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 import org.spoofax.interpreter.terms.ITermFactory;
