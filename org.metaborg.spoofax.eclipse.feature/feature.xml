@@ -50,6 +50,11 @@
     unpack="false"
   />
   <plugin
+    id="util-vfs2"
+    version="2.6.0.qualifier"
+    unpack="false"
+  />
+  <plugin
     id="org.spoofax.terms"
     version="2.6.0.qualifier"
     unpack="false"

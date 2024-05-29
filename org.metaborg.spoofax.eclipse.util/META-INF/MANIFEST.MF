@@ -21,4 +21,5 @@ Require-Bundle: org.metaborg.spoofax.core,
  org.eclipse.jface.text,
  org.eclipse.core.expressions,
  org.metaborg.core,
- org.metaborg.util
+ org.metaborg.util,
+ util-vfs2
