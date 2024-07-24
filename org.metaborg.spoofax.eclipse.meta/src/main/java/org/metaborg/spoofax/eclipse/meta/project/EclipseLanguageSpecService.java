@@ -24,7 +24,7 @@ public class EclipseLanguageSpecService implements ISpoofaxLanguageSpecService {
     private final ISpoofaxLanguageSpecConfigService configService;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public EclipseLanguageSpecService(ISourceTextService sourceTextService,
+    @jakarta.inject.Inject public EclipseLanguageSpecService(ISourceTextService sourceTextService,
         ISpoofaxLanguageSpecConfigService configService) {
         this.sourceTextService = sourceTextService;
         this.configService = configService;

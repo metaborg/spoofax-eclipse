@@ -16,7 +16,7 @@ public class EclipseAntRunnerService implements IAntRunnerService {
     private final IResourceService resourceService;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public EclipseAntRunnerService(IResourceService resourceService) {
+    @jakarta.inject.Inject public EclipseAntRunnerService(IResourceService resourceService) {
         this.resourceService = resourceService;
     }
 

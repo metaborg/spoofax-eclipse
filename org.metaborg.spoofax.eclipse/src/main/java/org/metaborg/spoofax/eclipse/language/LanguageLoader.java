@@ -47,7 +47,7 @@ public class LanguageLoader {
     private final IWorkspaceRoot workspaceRoot;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public LanguageLoader(IEclipseResourceService resourceService, ILanguageService languageService,
+    @jakarta.inject.Inject public LanguageLoader(IEclipseResourceService resourceService, ILanguageService languageService,
         ILanguageDiscoveryService languageDiscoveryService, IDialectProcessor dialectProcessor,
         GlobalSchedulingRules globalRules) {
         this.resourceService = resourceService;

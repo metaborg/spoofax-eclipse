@@ -38,7 +38,7 @@ public class MetaLanguageLoader implements IResourceChangeListener {
     private final IWorkspaceRoot workspaceRoot;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public MetaLanguageLoader(IEclipseResourceService resourceService, IProjectService projectService,
+    @jakarta.inject.Inject public MetaLanguageLoader(IEclipseResourceService resourceService, IProjectService projectService,
         ILanguageSpecService languageSpecService, GlobalSchedulingRules globalRules, LanguageLoader languageLoader) {
         this.resourceService = resourceService;
         this.projectService = projectService;
