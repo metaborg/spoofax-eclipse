@@ -52,7 +52,7 @@ public class EclipseLanguageChangeProcessor extends LanguageChangeProcessor {
     private final Display display;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public EclipseLanguageChangeProcessor(IEclipseResourceService resourceService,
+    @jakarta.inject.Inject public EclipseLanguageChangeProcessor(IEclipseResourceService resourceService,
         ILanguageIdentifierService languageIdentifier, IDialectProcessor dialectProcessor,
         IContextProcessor contextProcessor, IParseResultProcessor<?, ?> parseResultProcessor,
         IAnalysisResultProcessor<?, ?, ?> analysisResultProcessor, org.metaborg.core.editor.IEditorRegistry editorRegistry,

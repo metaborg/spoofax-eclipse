@@ -34,8 +34,8 @@ public class EclipseResourceService extends ResourceService implements IEclipseR
     private final IWorkspaceRoot root;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public EclipseResourceService(FileSystemManager fileSystemManager,
-        @jakarta.inject.Named("ResourceClassLoader") @javax.inject.Named("ResourceClassLoader") ClassLoader classLoader) {
+    @jakarta.inject.Inject public EclipseResourceService(FileSystemManager fileSystemManager,
+        @jakarta.inject.Named("ResourceClassLoader") ClassLoader classLoader) {
         super(fileSystemManager, classLoader);
 
         this.root = ResourcesPlugin.getWorkspace().getRoot();

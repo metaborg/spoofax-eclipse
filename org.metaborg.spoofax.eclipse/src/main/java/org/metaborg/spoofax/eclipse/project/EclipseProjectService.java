@@ -22,7 +22,7 @@ public class EclipseProjectService implements IEclipseProjectService {
     private final IProjectConfigService projectConfigService;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public EclipseProjectService(ISourceTextService sourceTextService, IEclipseResourceService resourceService,
+    @jakarta.inject.Inject public EclipseProjectService(ISourceTextService sourceTextService, IEclipseResourceService resourceService,
         IProjectConfigService projectConfigService) {
         this.sourceTextService = sourceTextService;
         this.resourceService = resourceService;

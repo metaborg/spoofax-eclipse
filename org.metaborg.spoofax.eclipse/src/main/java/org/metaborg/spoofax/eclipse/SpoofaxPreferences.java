@@ -16,7 +16,7 @@ public class SpoofaxPreferences {
     private final Command delayEditorAnalysisCommand;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public SpoofaxPreferences() {
+    @jakarta.inject.Inject public SpoofaxPreferences() {
         this.commandService = PlatformUI.getWorkbench().getService(ICommandService.class);
 
         this.disableBuildCommand = commandService.getCommand("org.metaborg.spoofax.eclipse.command.disable.build");

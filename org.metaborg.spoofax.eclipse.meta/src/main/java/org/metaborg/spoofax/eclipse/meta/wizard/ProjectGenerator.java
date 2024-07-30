@@ -54,7 +54,7 @@ public class ProjectGenerator {
     private final IWorkspace workspace;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public ProjectGenerator(IEclipseResourceService resourceService, IProjectService projectService,
+    @jakarta.inject.Inject public ProjectGenerator(IEclipseResourceService resourceService, IProjectService projectService,
         ISpoofaxLanguageSpecService languageSpecService, ISpoofaxLanguageSpecConfigBuilder configBuilder) {
         this.resourceService = resourceService;
         this.projectService = projectService;

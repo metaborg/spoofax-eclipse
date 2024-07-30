@@ -27,7 +27,7 @@ import org.metaborg.util.task.IProgress;
 public class SpoofaxProcessor
     extends Processor<ISpoofaxParseUnit, ISpoofaxAnalyzeUnit, ISpoofaxAnalyzeUnitUpdate, ISpoofaxTransformUnit<?>>
     implements ISpoofaxProcessor {
-    @jakarta.inject.Inject @javax.inject.Inject public SpoofaxProcessor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
+    @jakarta.inject.Inject public SpoofaxProcessor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
         IDialectProcessor dialectProcessor, ISpoofaxBuilder builder, ILanguageChangeProcessor processor,
         GlobalSchedulingRules globalRules, LanguageLoader languageLoader) {
         super(resourceService, projectService, dialectProcessor, builder, processor, globalRules, languageLoader);

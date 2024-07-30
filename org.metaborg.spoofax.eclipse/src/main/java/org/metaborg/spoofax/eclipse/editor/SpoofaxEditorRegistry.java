@@ -9,7 +9,7 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
  * Typedef class for {@link EditorRegistry} with Spoofax interfaces.
  */
 public class SpoofaxEditorRegistry extends EditorRegistry<IStrategoTerm> {
-    @jakarta.inject.Inject @javax.inject.Inject public SpoofaxEditorRegistry(IEclipseResourceService resourceService) {
+    @jakarta.inject.Inject public SpoofaxEditorRegistry(IEclipseResourceService resourceService) {
         super(resourceService);
     }
 }

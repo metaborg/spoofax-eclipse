@@ -54,7 +54,7 @@ public class EditorRegistry<F>
     private volatile IEclipseEditor<F> previousActive;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public EditorRegistry(IEclipseResourceService resourceService) {
+    @jakarta.inject.Inject public EditorRegistry(IEclipseResourceService resourceService) {
         this.resourceService = resourceService;
     }
 

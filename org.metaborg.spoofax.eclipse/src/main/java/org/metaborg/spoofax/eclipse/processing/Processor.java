@@ -59,7 +59,7 @@ public class Processor<P extends IParseUnit, A extends IAnalyzeUnit, AU extends 
     private final IWorkspace workspace;
 
 
-    @jakarta.inject.Inject @javax.inject.Inject public Processor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
+    @jakarta.inject.Inject public Processor(IEclipseResourceService resourceService, IEclipseProjectService projectService,
         IDialectProcessor dialectProcessor, IBuilder<P, A, AU, T> builder, ILanguageChangeProcessor processor,
         GlobalSchedulingRules globalRules, LanguageLoader languageLoader) {
         this.resourceService = resourceService;
